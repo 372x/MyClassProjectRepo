@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="/main.css">
+    <script type="text/javascript" async="async" defer="defer" src="application.js"></script>
+  </head>
+  <body>
+      <div id="app">
+          <h4>Detecting...</h4>
+      </div>
+      <header>
+          <p>defines a header for the document or section</p>
+          
+          <nav>
+              <a href=""></a><menuitem>menu item 1</menuitem></a>
+              <a href=""><menuitem>menu item 2</menuitem></a>
+          </nav>
+      </header>
+      <main>
+          <section>
+              <article>
+                  <h1>Header of an article, where article might be the whole page</h1>
+                  <time>April 15th</time>
+                  <wbr>
+                  <p>Main content of the article.</p>
+                  <p>Some text can be <mark>marked.</mark></p>
+                  <figure>
+                      <img />
+                      <p>This is an illustration.</p>
+                      <figcaption>This is the caption for my figure.</figcaption>
+                  </figure>
+                  <details>
+                      <p>This can be viewed or hidden.</p>
+                      <summary>This is a summary of the detail.</summary>
+                  </details>
+                  <progress>THis article is <meter>100</meter>% downloaded.</progress>
+
+              </article>
+          </section>
+          <section>
+              <dialog>I am a pop-up window</dialog>
+          </section>  
+          <section>
+              <aside>defines content aside from the page content</aside>
+          </section>
+      </main>
+      <footer>This is at the bottom.</footer>
+    
+  </body>
+</html>
