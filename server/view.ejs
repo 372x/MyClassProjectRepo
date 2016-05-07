@@ -1,25 +1,35 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="/main.css">
-    <script type="text/javascript" async="async" defer="defer" src="application.js"></script>
-  </head>
-  <body>
-    <h1>List Page</h1>
-    <main>
-      <div> class-"row">
-        <div> class="col-md-2">Is Done?</div>
-        <div> class="col-md-10">Title</div>
-      </div>  
-      <div> class-"row">
-        <div> class="col-md-2">No</div>
-        <div> class="col-md-10">My Todo</div>
-      </div>
+<!-- Imports -->
+<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 
-    </main>
-  </body>
-</html>
+<!-- Application -->
+<div class="todo-container">
+  <h1>Bootstrap Todo App</h1>
+  <div class="add-todo-container row">
+    <div class="col-md-10">
+      <input type="text" class="form-control" placeholder="new todo">
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary">Add</button>
+    </div>
+  </div>
+  <ul class="list-group"></ul>
+</div>
+
+<!-- Templates -->
+<script type="text/x-template">  <!-- this is the view of the MVC model -->
+  <li class="list-group-item row {{#if completed}}disabled{{/if}}">
+    <div class="col-md-1">
+      <input type="checkbox" {{#if completed}}checked{{/if}} value="">
+    </div>
+    <div class="col-md-10">  
+      <p class="item-title">{{title}}</p>
+    </div>
+    <div class="col-md-1"> 
+      <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+  </li>
+</script>
