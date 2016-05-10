@@ -1,3 +1,3 @@
 
 var app = {};
-module.export = app;
+module.exports = app;

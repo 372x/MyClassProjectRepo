@@ -109,5 +109,5 @@ var app = {   // this whole thing is a property with two properties of init and 
   }
 };
  
-module.export = app;  // replaces app.init(); -- exports code but doesn't run it, it's run on app.jsx
+module.exports = app;  // replaces app.init(); -- exports code but doesn't run it, it's run on app.jsx
 
