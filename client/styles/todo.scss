@@ -1,7 +1,9 @@
-@import url(https://fonts.googleapis.com/css?family=Indie+Flower);.todo-container {
-  /*  position: relative; */
+@import url("https://fonts.googleapis.com/css?family=Indie+Flower");
+
+.todo-container {
+/*  position: relative; */
   width: 500px;
-  /* height: auto;
+ /* height: auto;
   left: 50%;
   margin-left: -250px; 
   margin-top: 10px;*/
@@ -13,14 +15,11 @@
 .add-todo-container {
   margin-bottom: 10px;
 }
-
 .add-todo-container .col-md-10 {
   padding-left: 0;
 }
-
 .add-todo-container .col-md-2 {
   padding-right: 0;
   text-align: right;
 }
 
-/*# sourceMappingURL=main.css.map*/
