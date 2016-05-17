@@ -60,9 +60,13 @@
 	
 	// todos is what was app on the todo.js file
 	
-	var _pagesProject = __webpack_require__(52);
+	var _pagesProject = __webpack_require__(53);
 	
 	var _pagesProject2 = _interopRequireDefault(_pagesProject);
+	
+	var _pagesFunnySquares = __webpack_require__(54);
+	
+	var _pagesFunnySquares2 = _interopRequireDefault(_pagesFunnySquares);
 	
 	(0, _jquery2['default'])(function () {
 	  // what page are we on?
@@ -76,6 +80,9 @@
 	      break;
 	    case '/pages/project.html':
 	      // init the project javascript
+	      break;
+	    case '/pages/funnySquares.html':
+	      _pagesFunnySquares2['default'].init();
 	      break;
 	  }
 	
@@ -9940,7 +9947,7 @@
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
-	module.exports = {"todo-container":"todo-container","add-todo-container":"add-todo-container","col-md-10":"col-md-10","col-md-2":"col-md-2"};
+	module.exports = {"todo-container":"todo-container","add-todo-container":"add-todo-container","col-md-10":"col-md-10","col-md-2":"col-md-2","square":"square","square-container":"square-container","square1":"square1","square2":"square2","square3":"square3","square4":"square4","square5":"square5","square6":"square6"};
 
 /***/ },
 /* 3 */,
@@ -9969,6 +9976,12 @@
 	
 	var _lscache2 = _interopRequireDefault(_lscache);
 	
+	var _templatesTodoItemHtml = __webpack_require__(39);
+	
+	var _templatesTodoItemHtml2 = _interopRequireDefault(_templatesTodoItemHtml);
+	
+	// some might need html! in front of templates/todoItem.html
+	
 	// on document load
 	// $(function(){
 	
@@ -9976,7 +9989,7 @@
 	var $ = __webpack_require__(1); // ES5 way of doing this
 	// legacy loading for bootstrap
 	window.jQuery = window.$ = $;
-	__webpack_require__(39);var savedData = _lscache2['default'].get('todos');
+	__webpack_require__(40);var savedData = _lscache2['default'].get('todos');
 	var todos; // = [    // to do's always start with an empty array ==> var todos = [];
 	if (savedData === null) {
 	  todos = [];
@@ -9996,7 +10009,7 @@
 	  // when you create a function, you use the curly brackets to store the code and creat scope
 	  //  e.g. var test - function(){}  sets up the funtion;  test(); is what calls the function
 	  // var app = {
-	  x: 4, // this in js is x=4;  it's an object to call this function app.test();
+	  //    x: 4,  // this in js is x=4;  it's an object to call this function app.test();
 	  //  }
 	  init: function init() {
 	    // init is a name we picked, it's a best practice terming approach
@@ -10015,14 +10028,15 @@
 	    app.bindEvents();
 	  },
 	  compileTemplates: function compileTemplates() {
-	    template = $('[type="text/x-template"]'); // this sets 'template' to a jQuery selector, names the HTML template
-	    template = _handlebars2['default'].compile(template.first().html()); // Handlebars.compile is a Handlebars command
+	    // template = $('[type="te // this sets 'template' to a jQuery selector, names the HTML template
+	    template = _handlebars2['default'].compile(_templatesTodoItemHtml2['default']); // Handlebars.compile is a Handlebars command
 	  },
 	  unbindEvents: function unbindEvents() {
 	    $('.list-group-item').off(); // turns stuff off, i.e. clears everything
 	    $('.add-todo-container button').off(); // need to bind and unbind in Backbone, but not in React
 	    $('input[type="checkbox"]').off();
 	    $('.list-group-item button').off();
+	    $('.title-edit input').off();
 	  }, // before we fill the DOM with the new HTML, unbind events so all clear
 	  bindEvents: function bindEvents() {
 	    // this fills the DOM with the new HTML
@@ -10030,6 +10044,7 @@
 	    app.bindCheckboxEvents();
 	    app.bindAddTodoEvents();
 	    app.bindRemoveTodoEvents();
+	    app.bindEditTodoEvents();
 	  },
 	  bindHoverEvents: function bindHoverEvents() {
 	    var $items = $('.list-group-item');
@@ -10060,9 +10075,13 @@
 	      if (_underscore2['default'].isString(newTodoTitle) && newTodoTitle.length > 2) {
 	        // have to be sure its a string first, before check the length, otherwise could get a 'null' returned  ==> $.type is a jQ thing
 	        // if (_.isString(newTodoTitle) replaces if ($.type(newTodoTitle) === 'string' in the if statement
-	        var newTodoObject = { title: newTodoTitle, completed: false };
+	        var newTodoObject = {
+	          id: todos.length, // '.length' here is this todo's positio in array
+	          title: newTodoTitle,
+	          completed: false
+	        };
 	        todos.push(newTodoObject); // push is js, means add new object to data model array
-	        $('.add-todo-container input').val('');
+	        $('.add-todo-container input').val(''); // the val('') sets the value to nothing, ie it puts the entry box empty again; if no quotes, it gets the value
 	        app.render();
 	      }
 	    });
@@ -10073,6 +10092,35 @@
 	      var index = $(this).parent().parent().index();
 	      todos.splice(index, 1);
 	      app.render();
+	    });
+	  },
+	  bindEditTodoEvents: function bindEditTodoEvents() {
+	    $('.title').on('click', function () {
+	      var $parent = $(this).parent(); // the 'this' refers to what was clicked on
+	      $parent.find('.title').addClass('hidden'); // find in the parent for the title we want
+	
+	      $parent.find('.title-edit').removeClass('hidden');
+	    });
+	    $('.title-edit input').on('keypress', function (event) {
+	      // this is an event handler, something happens when event happens; go to title-edit in the html and find the input tag inside that
+	      var key = event.which; // the key pressed is stored either as keyCode or 'which' [depends on browser]
+	      // if they hit the enter key  // the enter key is 13; a number for every key. If more than one key is enter, then: if (key === 13 || key === 108)
+	      if (key === 13) {
+	        var newTitle = $(this).val();
+	        // update the title in our model [model is where all the data is]
+	        var editId = $(this).attr('data-id'); // attr reads the value of data-id
+	        editId = parseInt(editId, 10); // the 10 puts it in base 10, parseInt converts string to number
+	        var editTodo = _underscore2['default'].filter(todos, function (todo) {
+	          // filter returns an array that passes the filter test
+	          if (todo.id === editId) {
+	            // todo.id is the position of the todo in the array
+	            return true;
+	          }
+	          return false;
+	        });
+	        editTodo[0].title = newTitle;
+	        app.render();
+	      }
 	    });
 	  }
 	};
@@ -16777,10 +16825,15 @@
 
 /***/ },
 /* 39 */
+/***/ function(module, exports) {
+
+	module.exports = "<li class=\"list-group-item row {{#if completed}}disabled{{/if}}\">\n  <div class=\"col-sm-1\">\n    <input type=\"checkbox\" {{#if completed}}checked{{/if}} value=\"\">\n  </div>\n  <div class=\"col-sm-10 title\">{{title}}</div>\n  <div class=\"col-sm-10 title-edit hidden\">\n    <input type=\"text\" class=\"form-control\" value=\"{{title}}\" data-id=\"{{id}}\">\n  </div>\n  <div class=\"col-sm-1\"> \n    <button type=\"button\" class=\"close\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n</li>";
+
+/***/ },
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// This file is autogenerated via the `commonjs` Grunt task. You can require() this file in a CommonJS environment.
-	__webpack_require__(40)
 	__webpack_require__(41)
 	__webpack_require__(42)
 	__webpack_require__(43)
@@ -16792,9 +16845,10 @@
 	__webpack_require__(49)
 	__webpack_require__(50)
 	__webpack_require__(51)
+	__webpack_require__(52)
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports) {
 
 	/* ========================================================================
@@ -16859,7 +16913,7 @@
 
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports) {
 
 	/* ========================================================================
@@ -16959,7 +17013,7 @@
 
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports) {
 
 	/* ========================================================================
@@ -17085,7 +17139,7 @@
 
 
 /***/ },
-/* 43 */
+/* 44 */
 /***/ function(module, exports) {
 
 	/* ========================================================================
@@ -17328,7 +17382,7 @@
 
 
 /***/ },
-/* 44 */
+/* 45 */
 /***/ function(module, exports) {
 
 	/* ========================================================================
@@ -17545,7 +17599,7 @@
 
 
 /***/ },
-/* 45 */
+/* 46 */
 /***/ function(module, exports) {
 
 	/* ========================================================================
@@ -17716,7 +17770,7 @@
 
 
 /***/ },
-/* 46 */
+/* 47 */
 /***/ function(module, exports) {
 
 	/* ========================================================================
@@ -18059,7 +18113,7 @@
 
 
 /***/ },
-/* 47 */
+/* 48 */
 /***/ function(module, exports) {
 
 	/* ========================================================================
@@ -18579,7 +18633,7 @@
 
 
 /***/ },
-/* 48 */
+/* 49 */
 /***/ function(module, exports) {
 
 	/* ========================================================================
@@ -18693,7 +18747,7 @@
 
 
 /***/ },
-/* 49 */
+/* 50 */
 /***/ function(module, exports) {
 
 	/* ========================================================================
@@ -18871,7 +18925,7 @@
 
 
 /***/ },
-/* 50 */
+/* 51 */
 /***/ function(module, exports) {
 
 	/* ========================================================================
@@ -19032,7 +19086,7 @@
 
 
 /***/ },
-/* 51 */
+/* 52 */
 /***/ function(module, exports) {
 
 	/* ========================================================================
@@ -19200,13 +19254,64 @@
 
 
 /***/ },
-/* 52 */
+/* 53 */
 /***/ function(module, exports) {
 
 	"use strict";
 	
 	var app = {};
 	module.exports = app;
+
+/***/ },
+/* 54 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _jquery = __webpack_require__(1);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _underscore = __webpack_require__(7);
+	
+	var _underscore2 = _interopRequireDefault(_underscore);
+	
+	var _templatesFunnySquareHtml = __webpack_require__(55);
+	
+	var _templatesFunnySquareHtml2 = _interopRequireDefault(_templatesFunnySquareHtml);
+	
+	var _handlebars = __webpack_require__(8);
+	
+	var _handlebars2 = _interopRequireDefault(_handlebars);
+	
+	var template;
+	var app = {
+	  init: function init() {
+	    // initializes i.e. starts us off
+	    template = _handlebars2['default'].compile(_templatesFunnySquareHtml2['default']);
+	    app.render();
+	  },
+	  render: function render() {
+	    // display six squares
+	    var numberOfSquares = 6;
+	    var renderedHtml = '';
+	    _underscore2['default'].times(numberOfSquares, function (index) {
+	      // using 'times' avoids using a 'for loop'
+	      renderedHtml += template({ id: index });
+	    });
+	    (0, _jquery2['default'])('h1').after(renderedHtml);
+	  }
+	};
+	
+	module.exports = app;
+
+/***/ },
+/* 55 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"square-container\">\n  <div class=\"square square{{id}}\">\n    <div class=\"inner\">{{id}}</div>\n  </div>\n</div>";
 
 /***/ }
 /******/ ]);

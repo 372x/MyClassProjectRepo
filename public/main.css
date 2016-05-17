@@ -8,6 +8,8 @@
   margin: 5px auto;
   margin-top: 20px;
   font-family: 'Indie Flower', cursive;
+  background: turquoise;
+  padding: 20px;
 }
 
 .add-todo-container {
@@ -21,6 +23,66 @@
 .add-todo-container .col-md-2 {
   padding-right: 0;
   text-align: right;
+}
+
+.todo-container h1 {
+  color: green;
+  margin-left: 60px;
+  margin-bottom: 15px;
+}
+
+h1 {
+  color: red;
+}
+
+.square {
+  display: inline-block;
+  height: 100px;
+  width: 100px;
+  background-color: #63a1f2;
+  text-align: center;
+  line-height: 100px;
+  font-family: arial;
+  font-size: 42px;
+  transform: none;
+  transition: transform .5s;
+}
+
+.square-container {
+  perspective: 150px;
+  display: inline-block;
+}
+
+.square1:hover {
+  transform: skewX(45deg);
+  transition: transform .5s;
+}
+
+.square2:hover {
+  transform: rotate(45deg);
+  transition: transform .5s;
+}
+
+.square3:hover {
+  transform: scale(0.8, 0.5);
+  transition: transform .5s;
+}
+
+.square4:hover {
+  transform: rotateY(745deg) rotateX(45deg);
+  transition: transform .5s;
+}
+
+.square5:hover {
+  -webkit-transform: rotateX(45deg);
+  transform: rotateX(45deg);
+  transition: transform .5s;
+}
+
+.square6:hover {
+  transform: translate3d(20px, 50px, 100px);
+  /* move it this far X, Y, Z */
+  transition: transform .5s;
 }
 
 /*# sourceMappingURL=main.css.map*/

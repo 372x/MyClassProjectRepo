@@ -10,6 +10,8 @@
   margin: 5px auto;
   margin-top: 20px;
   font-family: 'Indie Flower', cursive;
+  background: turquoise;
+  padding: 20px;
 }
 
 .add-todo-container {
@@ -23,3 +25,8 @@
   text-align: right;
 }
 
+.todo-container h1 {
+  color: green;
+  margin-left: 60px;
+  margin-bottom: 15px;
+}

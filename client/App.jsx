@@ -3,6 +3,7 @@ import $ from 'jquery';
 import 'styles/main.scss';
 import todos from 'pages/todo';  // todos is what was app on the todo.js file
 import project from 'pages/project';
+import funnySquares from 'pages/funnySquares';
 
 $(function(){
 	// what page are we on?
@@ -16,6 +17,9 @@ $(function(){
     case '/pages/project.html':
         // init the project javascript
 		break;
+    case '/pages/funnySquares.html':
+        funnySquares.init();
+    break;
   }
 
 	// if (url === 'pages/todo.html'){
