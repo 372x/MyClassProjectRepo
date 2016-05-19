@@ -4,8 +4,15 @@ import 'styles/main.scss';
 import todos from 'pages/todo';  // todos is what was app on the todo.js file
 import project from 'pages/project';
 import funnySquares from 'pages/funnySquares';
+import header from 'components/header';
+import main from 'components/main';  // NEW NEW NEW 
+import footer from 'components/footer';  // NEW NEW NEW 
 
 $(function(){
+  // $('header').append(navbar);
+  header.init();
+  main.init();  // NEW NEW NEW 
+  footer.init();  // NEW NEW NEW  
 	// what page are we on?
   var url = window.location.pathname;
 
