@@ -64,10 +64,33 @@ div.footer {
   position: relative;
   width: 100%;
   height: 75px;
-  color: purple;
-  top: 1000px;
-  /* position: absolute;
+  background-color: purple;
+  /* top: 1000px;
+	font-color: black;
+	/* position: absolute;
 	z-index: 3; */
+}
+
+div.footer-text {
+  font-color: black;
+}
+
+.thumbnail {
+  width: 300px;
+}
+
+.thumbnail .thumbnail1 {
+  margin-left: 30px;
+}
+
+.row3 {
+  /* margin-top: 50px; */
+}
+
+.thumbnail-block {
+  width: 100%;
+  text-align: center;
+  margin-top: 100px;
 }
 
 h1 {
@@ -122,6 +145,12 @@ h1 {
   transform: translate3d(20px, 50px, 100px);
   /* move it this far X, Y, Z */
   transition: transform .5s;
+}
+
+/* @import 'D3ProjectTestDrive'; */
+video {
+  height: 240px;
+  width: 320px;
 }
 
 /*# sourceMappingURL=main.css.map*/

@@ -1,0 +1,18 @@
+
+// class-based JS, so People is capitalized
+
+var People = function (){
+	this.name = "joe";  // this is the window object
+	this.job = "developer";  // this show it's class-based js
+	this.goToTheSTore = function(){};
+	retrun this;
+}
+
+var person = new People("joe");  // only for class-based js and always in tandem with 'this' keyword.  wrong way: var person = People("joe");  --this is wrong because it doesn't have the 'new' keyword.  also pollutes the window object, because 'this' refers to the window object unless paired with 'new'.  Without the 'new', each 'this' changes the window object to whatever the newest 'this' is equated to. 
+
+person.goToTheStore();
+
+console.log(person.name);
+// returns "joe"
+
+// class-based JS = 

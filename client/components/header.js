@@ -3,7 +3,7 @@ import $ from 'jquery';
 import navbar from 'templates/navbar.html';
 
 var app = {
-  init: function (){
+  init: function(){
     app.render();
   },
   render: function(){
