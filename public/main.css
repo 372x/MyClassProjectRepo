@@ -148,6 +148,15 @@ h1 {
 }
 
 /* @import 'D3ProjectTestDrive'; */
+.page-container {
+  width: 700px;
+  margin: 0 auto;
+  /* basically centers the div; 0 is top & bottom, the auto is left and right to center it*/
+  /* background-color: #dfdfdf;
+	min-height: 100px; */
+}
+
+/* all divs are position:relative to start; */
 video {
   height: 240px;
   width: 320px;

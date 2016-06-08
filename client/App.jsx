@@ -8,6 +8,8 @@ import funnySquares from 'pages/funnySquares';
 import header from 'components/header';
 import main from 'components/main';  // NEW NEW NEW 
 import footer from 'components/footer';  // NEW NEW NEW 
+import formsBackbone from 'pages/formsBackbone';
+import listTemplate from 'templates/accountList.html';
 
 $(function(){
   // $('header').append(navbar);
@@ -25,8 +27,13 @@ $(function(){
     case '/pages/project.html':
         // init the project javascript
 		break;
+    
     case '/pages/funnySquares.html':
-        funnySquares.init();
+         funnySquares.init();
+    break;
+
+    case '/pages/formsBackbone.html':
+        formsBackbone.render();
     break;
   }
 

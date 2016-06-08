@@ -86,6 +86,14 @@
 	
 	// NEW NEW NEW
 	
+	var _pagesFormsBackbone = __webpack_require__(61);
+	
+	var _pagesFormsBackbone2 = _interopRequireDefault(_pagesFormsBackbone);
+	
+	var _templatesAccountListHtml = __webpack_require__(62);
+	
+	var _templatesAccountListHtml2 = _interopRequireDefault(_templatesAccountListHtml);
+	
 	(0, _jquery2['default'])(function () {
 	  // $('header').append(navbar);
 	  _componentsHeader2['default'].init();
@@ -103,8 +111,13 @@
 	    case '/pages/project.html':
 	      // init the project javascript
 	      break;
+	
 	    case '/pages/funnySquares.html':
 	      _pagesFunnySquares2['default'].init();
+	      break;
+	
+	    case '/pages/formsBackbone.html':
+	      _pagesFormsBackbone2['default'].render();
 	      break;
 	  }
 	
@@ -9978,7 +9991,7 @@
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
-	module.exports = {"todo-container":"todo-container","add-todo-container":"add-todo-container","col-md-10":"col-md-10","col-md-2":"col-md-2","main-image":"main-image","page-header":"page-header","footer":"footer","footer-text":"footer-text","thumbnail":"thumbnail","thumbnail1":"thumbnail1","row3":"row3","thumbnail-block":"thumbnail-block","square":"square","square-container":"square-container","square1":"square1","square2":"square2","square3":"square3","square4":"square4","square5":"square5","square6":"square6"};
+	module.exports = {"todo-container":"todo-container","add-todo-container":"add-todo-container","col-md-10":"col-md-10","col-md-2":"col-md-2","main-image":"main-image","page-header":"page-header","footer":"footer","footer-text":"footer-text","thumbnail":"thumbnail","thumbnail1":"thumbnail1","row3":"row3","thumbnail-block":"thumbnail-block","square":"square","square-container":"square-container","square1":"square1","square2":"square2","square3":"square3","square4":"square4","square5":"square5","square6":"square6","page-container":"page-container"};
 
 /***/ },
 /* 3 */,
@@ -10019,9 +10032,10 @@
 	window.jQuery = window.$ = $;
 	__webpack_require__(41);
 	
-	var TodoModel;
-	var TodoControllerView;
-	var TodoView;
+	var TodoModel; // these are the classes
+	var TodoControllerView; // these are the classes
+	var TodoView; // these are the classes
+	var TodoItemView;
 	
 	var todoModel;
 	var todoControllerView;
@@ -10029,29 +10043,117 @@
 	// Model
 	TodoModel = _backbone2['default'].Model.extend({ // e.g. TodoModelClass
 	  defaults: {
-	    // defaultProperty: "default value"
+	    todos: []
 	  },
-	  fetch: function fetch() {},
-	  save: function save() {}
+	  todoSchema: { // this schema affects all the data coming in and out of model
+	    id: 0, // gives a unique identifier to this
+	    title: '',
+	    completed: false
+	  },
+	  fetch: function fetch() {
+	    // debugger;
+	    var data = _lscache2['default'].get('todos');
+	    data = this.applySchema(data);
+	    this.set('todos', data); // this sets the value of the todos to the value of 'data'
+	    // this takes the data from lscachs and put it in our model
+	  },
+	  save: function save() {
+	    // debugger;
+	    var data = this.get('todos');
+	    data = this.applySchema(data);
+	    _lscache2['default'].set('todos', data);
+	  },
+	  applySchema: function applySchema(todos) {
+	    var data = todos;
+	    var schema = this.todoSchema; // classic Backbone bug: the 'this.todoSchema' is undefined because it hasn't been defined within this function.
+	    data = _underscore2['default'].isArray(todos) ? data : []; // shorthand if statement; stuff in parens is the condition to be evaluated for true or false.  If true, us the value after the '?', if false, use the stuff after the ':'
+	    // shorthand only for simple if else statement
+	    // ensuring this is an array
+	    data = data.map(function (todo, index) {
+	      // applies the enclosed function to each todo
+	      todo.id = index; // index of the array?
+	      return _underscore2['default'].defaults(todo, schema); // was: defaults(todo, this.todoSchema) // this is the output value
+	    }); // stores the mapped data back into data variable
+	    return data;
+	  },
+	  addItem: function addItem(newTitle) {
+	    var newTodo = { title: newTitle };
+	    var todos = this.get('todos');
+	    todos.push(newTodo);
+	    this.set('todos', todos);
+	    this.save(); //
+	  },
+	  removeItem: function removeItem(id) {
+	    // takes the item out of the model and calls .save
+	    var todos = this.get('todos');
+	    todos.splice(id, 1);
+	    this.save();
+	  }
 	});
 	
-	var todoModel = new TodoModel();
+	todoModel = new TodoModel();
 	
 	// Controller View
 	
 	TodoControllerView = _backbone2['default'].View.extend({
-	  el: 'body', // html element that has the class .container, refers to this DOM node; this is a jquery selector
+	  el: '.todo-container', // backbone automatically makes 'el' a '$el'// html element that has the class .container, refers to this DOM node; this is a jquery selector
 	  model: todoModel,
-	  events: {},
-	  inititalize: function inititalize() {},
+	  events: {
+	    'click .btn-add': 'addTodoItem'
+	  },
+	  inititalize: function inititalize() {
+	    this.model.fetch();
+	  },
 	  render: function render() {
-	    alert('backbone!');
+	    // debugger;
+	    // render the todo items
+	    var todos = this.model.get('todos');
+	    var $ul = this.$el.find('ul');
+	    $ul.html('');
+	    todos.map(function (todo) {
+	      var view = new TodoItemView(todo);
+	      $ul.append(view.$el); // can't do an append inside a .mpa  // reading to and from the DOM is slow,and appending in writing to the DOM, and map is doing an append for every item in the todo
+	    });
 	  }, // render does all the visual parts
-	  someFunction: function someFunction() {},
-	  closeView: function closeView() {} // not part of Backbone, these are event handlers we created
+	  // someFunction: function(){},
+	  // closeView: function(){} // not part of Backbone, these are event handlers we created
+	  addTodoItem: function addTodoItem() {
+	    var $input = this.$el.find('.input-name'); // 'el' is the todo-container; el is the DOM node, $el wraps the DOM node in jquery
+	    var newTitle = $input.val();
+	    if (newTitle === '') {
+	      return;
+	    } // the'return' exits you out of this
+	    this.model.addItem(newTitle);
+	    $input.val(''); // clears out value of input
+	    this.render(); // have to rerender to the change from adding the item
+	  },
+	  removeItem: function removeItem(id) {
+	    this.model.removeItem(id); // id of what will be removed is passed to the model for removal
+	    this.render(); // have to rerender to see the change from removing the item
+	  }
 	});
 	
-	var todoControllerView = new TodoControllerView(); // this calls 'initialize'
+	TodoItemView = _backbone2['default'].View.extend({ // this is the class of TodoItemView
+	  tagName: 'li', // el = <li>   i.e. el = an empty 'li' tag // 'el' is used when the item actually exists,, otherwise tagName is a placeholder, el will need to be appended at some point to the DOM   
+	  className: 'list-group-item row',
+	  events: {
+	    'click .close': 'removeItem'
+	  },
+	  template: _handlebars2['default'].compile(_templatesTodoItemHtml2['default']), // compiled once, then re-rendered multiple times
+	  initialize: function initialize(todo) {
+	    this.data = todo;
+	    this.render();
+	  },
+	  render: function render() {
+	    this.$el.html(this.template(this.data)); // this.$el is generated in tagName, and is what is rendered
+	  },
+	  removeItem: function removeItem() {
+	    // get the id of the current item and remove it from the DOM
+	    todoControllerView.removeItem(this.data.id); // the controller is what connects to the view model
+	  }
+	});
+	
+	todoControllerView = new TodoControllerView(); // this calls 'initialize'
 	
 	module.exports = todoControllerView;
 
@@ -18682,7 +18784,7 @@
 /* 40 */
 /***/ function(module, exports) {
 
-	module.exports = "<li class=\"list-group-item row {{#if completed}}disabled{{/if}}\">\n  <div class=\"col-sm-1\">\n    <input type=\"checkbox\" {{#if completed}}checked{{/if}} value=\"\">\n  </div>\n  <div class=\"col-sm-10 title\">{{title}}</div>\n  <div class=\"col-sm-10 title-edit hidden\">\n    <input type=\"text\" class=\"form-control\" value=\"{{title}}\" data-id=\"{{id}}\">\n  </div>\n  <div class=\"col-sm-1\"> \n    <button type=\"button\" class=\"close\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n</li>";
+	module.exports = "<!--<li class=\"list-group-item row\"> {{#if completed}}disabled{{/if}}\"> -->\n<div class=\"col-sm-1\">\n  <input type=\"checkbox\"> <!-- {{#if completed}}checked{{/if}} value=\"\"> -->\n</div>\n<div class=\"col-sm-10 title\">{{title}}</div>\n<div class=\"col-sm-10 title-edit hidden\">\n  <input type=\"text\" class=\"form-control\" value=\"{{title}}\" data-id=\"{{id}}\">\n</div>\n<div class=\"col-sm-1\"> \n  <button type=\"button\" class=\"close\" aria-label=\"Close\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<!--  </li>  -->";
 
 /***/ },
 /* 41 */
@@ -21200,7 +21302,7 @@
 /* 58 */
 /***/ function(module, exports) {
 
-	module.exports = " <link rel=\"stylesheet\" type=\"text/css\" href=\"/css/bootstrap.min.css\">\n<nav>\n  <!-- <a role=\"menuitem\" href=\"/pages/todo.html\">Todo Application</a> -->\n  <!-- <a role=\"menuitem\" href=\"/pages/project.html\">My Project</a> -->\n  <!-- <a role=\"menuitem\" href=\"/pages/funnySquares.html\">Funny Squares</a> -->\n</nav>\n\n<nav class=\"navbar navbar-default\">\n  <div class=\"container-fluid\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n        <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n      </button>\n      <a class=\"navbar-brand\" href=\"#\">Brand</a>\n    </div>\n\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n      <ul class=\"nav navbar-nav\">\n        <li class=\"active\"><a href=\"#\"><a role=\"menuitem\" href=\"/pages/todo.html\">Todo Application</a><span class=\"sr-only\">(current)</span></a></li>\n        <li><a href=\"#\"><a role=\"menuitem\" href=\"/pages/project.html\">My Project</a></a></li>\n        <li class=\"active\"><a href=\"#\"><a role=\"menuitem\" href=\"/pages/funnySquares.html\">Funny Squares</a><span class=\"sr-only\">(current)</span></a></li>\n        <!-- <li class=\"active\"><a href=\"#\"><a role=\"menuitem\" href=\"/pages/D3ProjectTestDrive.html\">D3 Chart</a><span class=\"sr-only\">(current)</span></a></li>  -->\n        <li class=\"dropdown\">\n          <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown <span class=\"caret\"></span></a>\n          <ul class=\"dropdown-menu\">\n            <li><a href=\"#\">Action</a></li>\n            <li><a href=\"#\">Another action</a></li>\n            <li><a href=\"#\">Something else here</a></li>\n            <li role=\"separator\" class=\"divider\"></li>\n            <li><a href=\"#\">Separated link</a></li>\n            <li role=\"separator\" class=\"divider\"></li>\n            <li><a href=\"#\">One more separated link</a></li>\n          </ul>\n        </li>\n      </ul>\n      <form class=\"navbar-form navbar-left\" role=\"search\">\n        <div class=\"form-group\">\n          <input type=\"text\" class=\"form-control\" placeholder=\"Search\">\n        </div>\n        <button type=\"submit\" class=\"btn btn-default\">Submit</button>\n      </form>\n      <ul class=\"nav navbar-nav navbar-right\">\n        <li><a href=\"#\">Link</a></li>\n        <li class=\"dropdown\">\n          <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown <span class=\"caret\"></span></a>\n          <ul class=\"dropdown-menu\">\n            <li><a href=\"#\">Action</a></li>\n            <li><a href=\"#\">Another action</a></li>\n            <li><a href=\"#\">Something else here</a></li>\n            <li role=\"separator\" class=\"divider\"></li>\n            <li><a href=\"#\">Separated link</a></li>\n          </ul>\n        </li>\n      </ul>\n    </div><!-- /.navbar-collapse -->\n  </div><!-- /.container-fluid -->\n</nav>";
+	module.exports = " <link rel=\"stylesheet\" type=\"text/css\" href=\"/css/bootstrap.min.css\">\n<nav>\n  <!-- <a role=\"menuitem\" href=\"/pages/todo.html\">Todo Application</a> -->\n  <!-- <a role=\"menuitem\" href=\"/pages/project.html\">My Project</a> -->\n  <!-- <a role=\"menuitem\" href=\"/pages/funnySquares.html\">Funny Squares</a> -->\n  <!-- <a role=\"menuitem\" href=\"/pages/formsBackbone.html\">Backbone Forms</a> -->\n\n</nav>\n\n<nav class=\"navbar navbar-default\">\n  <div class=\"container-fluid\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n        <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n      </button>\n      <a class=\"navbar-brand\" href=\"#\">Brand</a>\n    </div>\n\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n      <ul class=\"nav navbar-nav\">\n        <li class=\"active\"><a href=\"#\"><a role=\"menuitem\" href=\"/pages/todo.html\">Todo Application</a><span class=\"sr-only\">(current)</span></a></li>\n        <li><a href=\"#\"><a role=\"menuitem\" href=\"/pages/project.html\">My Project</a></a></li>\n        <li class=\"active\"><a href=\"#\"><a role=\"menuitem\" href=\"/pages/funnySquares.html\">Funny Squares</a><span class=\"sr-only\">(current)</span></a></li>\n        <li class=\"active\"><a href=\"#\"><a role=\"menuitem\" href=\"/pages/formsBackbone.html\">Backbone Forms</a><span class=\"sr-only\">(current)</span></a></li>\n        <!-- <li class=\"active\"><a href=\"#\"><a role=\"menuitem\" href=\"/pages/D3ProjectTestDrive.html\">D3 Chart</a><span class=\"sr-only\">(current)</span></a></li>  -->\n        <li class=\"dropdown\">\n          <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown <span class=\"caret\"></span></a>\n          <ul class=\"dropdown-menu\">\n            <li><a href=\"#\">Action</a></li>\n            <li><a href=\"#\">Another action</a></li>\n            <li><a href=\"#\">Something else here</a></li>\n            <li role=\"separator\" class=\"divider\"></li>\n            <li><a href=\"#\">Separated link</a></li>\n            <li role=\"separator\" class=\"divider\"></li>\n            <li><a href=\"#\">One more separated link</a></li>\n          </ul>\n        </li>\n      </ul>\n      <form class=\"navbar-form navbar-left\" role=\"search\">\n        <div class=\"form-group\">\n          <input type=\"text\" class=\"form-control\" placeholder=\"Search\">\n        </div>\n        <button type=\"submit\" class=\"btn btn-default\">Submit</button>\n      </form>\n      <ul class=\"nav navbar-nav navbar-right\">\n        <li><a href=\"#\">Link</a></li>\n        <li class=\"dropdown\">\n          <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown <span class=\"caret\"></span></a>\n          <ul class=\"dropdown-menu\">\n            <li><a href=\"#\">Action</a></li>\n            <li><a href=\"#\">Another action</a></li>\n            <li><a href=\"#\">Something else here</a></li>\n            <li role=\"separator\" class=\"divider\"></li>\n            <li><a href=\"#\">Separated link</a></li>\n          </ul>\n        </li>\n      </ul>\n    </div><!-- /.navbar-collapse -->\n  </div><!-- /.container-fluid -->\n</nav>";
 
 /***/ },
 /* 59 */
@@ -21253,6 +21355,152 @@
 	};
 	
 	module.exports = app;
+
+/***/ },
+/* 61 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _underscore = __webpack_require__(7);
+	
+	var _underscore2 = _interopRequireDefault(_underscore);
+	
+	// backbone relies on underscore and needs to come after it in the imports
+	
+	var _backbone = __webpack_require__(8);
+	
+	var _backbone2 = _interopRequireDefault(_backbone);
+	
+	var _handlebars = __webpack_require__(9);
+	
+	var _handlebars2 = _interopRequireDefault(_handlebars);
+	
+	var _lscache = __webpack_require__(39);
+	
+	var _lscache2 = _interopRequireDefault(_lscache);
+	
+	var _templatesAccountListHtml = __webpack_require__(62);
+	
+	var _templatesAccountListHtml2 = _interopRequireDefault(_templatesAccountListHtml);
+	
+	var _templatesCreateAccountHtml = __webpack_require__(63);
+	
+	var _templatesCreateAccountHtml2 = _interopRequireDefault(_templatesCreateAccountHtml);
+	
+	var $ = __webpack_require__(1);
+	window.jQuery = window.$ = $;
+	__webpack_require__(41);
+	
+	var AccountModel;
+	var AccountControllerView;
+	var AccountListView;
+	var AccountCreateView;
+	
+	// a model to make the button clickable; every backbone model has access to 'set' and 'get':
+	var accountModelConfigObject = {
+	  defaults: {
+	    accounts: []
+	  },
+	  save: function save() {
+	    var data = this.get('accounts');
+	    _lscache2['default'].set('accounts', data);
+	  },
+	  fetch: function fetch() {
+	    var data = _lscache2['default'].get('accounts'); //cache is in the user's browser
+	    data = data || []; // if data is undefined or null, then make this an empty array
+	    this.set('account', data);
+	  }
+	};
+	
+	AccountModel = _backbone2['default'].Model.extend(AccountModelConfigObject); // creates a class
+	
+	var accountModel = new AccountModel();
+	
+	// Controller
+	var controllerConfigObject = { // not capitalized because it's not a class
+	  el: '.page-container', // these four properties are a template for a backbone view
+	  model: accountModel,
+	  events: { // el is the main controller element, which in this case is the main div
+	    'click .btn-create': 'createNewAccount'
+	  },
+	  initialize: function initialize() {
+	    this.model.fetch();
+	    // this.render();
+	  },
+	  render: function render() {
+	    var listView = new ListView(); // instantiating a new class & display the account list
+	    this.$el.find('.view-container').html(listView.$el.html());
+	  },
+	  createNewAccount: function createNewAccount() {
+	    // display the create account page 
+	    var createView = new CreateView();
+	    this.$el.find('.view-container').html(createView.$el.html());
+	  }
+	};
+	
+	var AccountControllerView = _backbone2['default'].View.extend(controllerConfigObject); // framework.class.method  extending creates a new class out of an old one
+	// var accountControllerView = new AccountControllerView();  // instantiating a new class
+	
+	// View
+	
+	var listViewConfig = { // not capitalized because it's not a class
+	  // el: '.account-list-container',    // these four properties are a template for a backbone view
+	  tagName: 'div',
+	  event: {},
+	  template: Handlesbars.compile(_templatesAccountListHtml2['default']),
+	  initialize: function initialize() {
+	    this.render();
+	  },
+	  render: function render() {
+	    // display the account list
+	    var renderedTemplate = this.template({});
+	    this.$el.html(renderedTemplate);
+	  },
+	  createNewAccount: function createNewAccount() {
+	    // display the create account page
+	  }
+	};
+	
+	var ListView = _backbone2['default'].View.extend(listViewConfig); // framework.class.method  extending creates a new class out of an old one
+	
+	var createViewConfig = { // view that controls the form
+	  // el: '',    // these four properties are a template for a backbone view
+	  tagName: 'div',
+	  template: Handlesbars.compile(_templatesCreateAccountHtml2['default']),
+	  event: {
+	    'click .btn-done': 'submitForm'
+	  },
+	  initialize: function initialize() {
+	    this.render();
+	  },
+	  render: function render() {
+	    var renderedTemplate = this.template({});
+	    this.$el.html(renderedTemplate);
+	  },
+	  submitForm: function submitForm() {
+	    accountControllerView.render();
+	  }
+	};
+	var CreateView = _backbone2['default'].View.extend(createViewConfig);
+	
+	var accountControllerView = new AccountControllerView();
+	
+	module.exports = accountControllerView;
+
+/***/ },
+/* 62 */
+/***/ function(module, exports) {
+
+	module.exports = "\n <table class=\"table table-striped table-bordered table-hover\">\n  <tr>\n    <th>number</th>\n  </tr>\n  <tr>\n    <td>1</td>\n  </tr>\n  <tr>\n    <td>2</td>\n  </tr>\n</table>  <!-- use 'table' only for tables and nothing else -->";
+
+/***/ },
+/* 63 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<form>\n\t\n\t<label for=\"name-field\">Name</label>\n\t<input class=\"form-control\" type=\"text\" id=\"name-field\">\n\n</form>\n\n<button class=\"btn btn-primary btn-done\">done</button>";
 
 /***/ }
 /******/ ]);
