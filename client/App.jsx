@@ -8,8 +8,8 @@ import funnySquares from 'pages/funnySquares';
 import header from 'components/header';
 import main from 'components/main';  // NEW NEW NEW 
 import footer from 'components/footer';  // NEW NEW NEW 
-import formsBackbone from 'pages/formsBackbone';
-import listTemplate from 'templates/accountList.html';
+// import formsBackbone from 'pages/formsBackbone';
+// import listTemplate from 'templates/accountList.html';
 
 $(function(){
   // $('header').append(navbar);
@@ -22,7 +22,7 @@ $(function(){
     // our first javascript router; better syntax than if statement;
   switch (url){   // switch statement; going to look for lots of values of 'url'; executes same as if statement, but better syntax, better-looking code
     case '/pages/todo.html':  // takes place of if statement
-      todos.render();   //todos.init();
+      todos.render();   // todos.init();
 		break;
     case '/pages/project.html':
         // init the project javascript
@@ -32,9 +32,10 @@ $(function(){
          funnySquares.init();
     break;
 
-    case '/pages/formsBackbone.html':
+    /* case '/pages/formsBackbone.html':
         formsBackbone.render();
     break;
+    default: break;  */
   }
 
 	// if (url === 'pages/todo.html'){

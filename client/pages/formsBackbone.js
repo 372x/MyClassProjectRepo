@@ -11,10 +11,10 @@ import lscache from 'lscache';
 import listTemplate from 'templates/accountList.html';
 import createTemplate from 'templates/createAccount.html';
 
-var AccountModel;
-var AccountControllerView;
-var AccountListView;
-var AccountCreateView;
+// var AccountModel;
+// var AccountControllerView;
+// var AccountListView;
+// var AccountCreateView;
 
 // a model to make the button clickable; every backbone model has access to 'set' and 'get':
 var accountModelConfigObject = {
@@ -26,13 +26,13 @@ var accountModelConfigObject = {
     lscache.set('accounts', data);
   },
   fetch: function(){
-    var data = lscache.get('accounts');  //cache is in the user's browser
+    var data = lscache.get('accounts');  // cache is in the user's browser
     data = data || [];  // if data is undefined or null, then make this an empty array
-    this.set('account', data);
+    this.set('accounts', data);
   }
 };
 
-AccountModel = Backbone.Model.extend(AccountModelConfigObject); // creates a class
+var AccountModel = Backbone.Model.extend(accountModelConfigObject); // creates a class
 
 var accountModel = new AccountModel();
 
@@ -49,12 +49,14 @@ var controllerConfigObject = {   // not capitalized because it's not a class
   },
   render: function(){
     var listView = new ListView();  // instantiating a new class & display the account list
-    this.$el.find('.view-container').html(listView.$el.html());
+    this.$el.find('.view-container').html(listView.$el); // ****
+    // this.$el.find('.view-container').html(listView.$el.html()); // ****
   },
   createNewAccount: function(){
     // display the create account page  
     var createView = new CreateView();
-    this.$el.find('.view-container').html(createView.$el.html());
+    this.$el.find('.view-container').html(createView.$el); // ***
+    // this.$el.find('.view-container').html(createView.$el.html()); // ***
   }  
 };
 
@@ -67,7 +69,7 @@ var listViewConfig = {   // not capitalized because it's not a class
   // el: '.account-list-container',    // these four properties are a template for a backbone view
   tagName: 'div',
   event: {},
-  template: Handlesbars.compile(listTemplate),
+  template: Handlebars.compile(listTemplate),
   initialize: function(){
     this.render();
   },
@@ -75,8 +77,8 @@ var listViewConfig = {   // not capitalized because it's not a class
     // display the account list
     var renderedTemplate = this.template({});
     this.$el.html(renderedTemplate);
-  },
-  createNewAccount: function(){
+  // },
+  // createNewAccount: function(){
     // display the create account page
   }
 };
@@ -87,7 +89,7 @@ var createViewConfig = {  // view that controls the form
   // el: '',    // these four properties are a template for a backbone view
   tagName: 'div',
   template: Handlesbars.compile(createTemplate),
-  event: {
+  events: {
     'click .btn-done': 'submitForm'
   },
   initialize: function(){
@@ -103,7 +105,7 @@ var createViewConfig = {  // view that controls the form
 }; 
 var CreateView = Backbone.View.extend(createViewConfig);
 
-var accountControllerView = new AccountControllerView;
+var accountControllerView = new AccountControllerView();
 
 module.exports = accountControllerView;
 

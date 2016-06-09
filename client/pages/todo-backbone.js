@@ -67,7 +67,14 @@ TodoModel = Backbone.Model.extend({  // e.g. TodoModelClass
     var todos = this.get('todos');
     todos.splice(id, 1);
     this.save();
-  }
+  },
+  itemCompleted: function(id, isCompleted){
+    var todos = this.get('todos');
+    var item = _.findWhere(todos, {id: id});  // the first id is not a variable, it's the first of a key value pair
+    item.completed = isCompleted;
+    this.set('todos', todos);
+    this.save();
+  }  
 });
 
 todoModel = new TodoModel();
@@ -107,14 +114,19 @@ TodoControllerView = Backbone.View.extend({
   removeItem: function(id){
     this.model.removeItem(id);  // id of what will be removed is passed to the model for removal
     this.render();  // have to rerender to see the change from removing the item
+  },
+  itemCompleted: function(id, isCompleted){
+    this.model.itemCompleted(id, isCompleted);
+    this.render();
   }
 });
  
-TodoItemView = Backbone.View.extend({   // this is the class of TodoItemView
+TodoItemView = Backbone.View.extend({   // these are the user events; this is the class of TodoItemView
   tagName: 'li',  // el = <li>   i.e. el = an empty 'li' tag // 'el' is used when the item actually exists,, otherwise tagName is a placeholder, el will need to be appended at some point to the DOM    
   className: 'list-group-item row',
   events: {
-    'click .close': 'removeItem'
+    'click .close': 'removeItem',
+    'change .completed-checkbox': 'completedClicked'  // change, not click, because from field
   },
   template: Handlebars.compile(todoItemTemplate),  // compiled once, then re-rendered multiple times
   initialize: function(todo){
@@ -123,11 +135,16 @@ TodoItemView = Backbone.View.extend({   // this is the class of TodoItemView
   },
   render: function(){
     this.$el.html(this.template(this.data));  // this.$el is generated in tagName, and is what is rendered
+    this.$el.toggleClass('disabled', this.data.completed);  
+
   },
   removeItem: function(){
     // get the id of the current item and remove it from the DOM
     todoControllerView.removeItem(this.data.id);  // the controller is what connects to the view model
-
+  },
+  completedClicked: function(event){
+    var isChecked = $(event.target).is(':checked');  // jquery converts the CSS selector :checked to a true or false
+    todoControllerView.itemCompleted(this.data.id, isChecked);
   }
 });
 
