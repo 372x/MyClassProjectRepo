@@ -10090,12 +10090,19 @@
 	    item.completed = isCompleted;
 	    this.set('todos', todos);
 	    this.save();
+	  },
+	  editTitle: function editTitle(newTitle, id) {
+	    var todos = this.get('todos');
+	    var item = _underscore2['default'].findWhere(todos, { id: id }); // the first id is not a variable, it's the first of a key value pair
+	    item.title = newTitle;
+	    this.set('todos', todos);
+	    this.save();
 	  }
 	});
 	
 	todoModel = new TodoModel();
 	
-	// Controller View
+	// Controller View: shifts between model and view, transport of data from model to view and back
 	
 	TodoControllerView = _backbone2['default'].View.extend({
 	  el: '.todo-container', // backbone automatically makes 'el' a '$el'// html element that has the class .container, refers to this DOM node; this is a jquery selector
@@ -10136,6 +10143,10 @@
 	  itemCompleted: function itemCompleted(id, isCompleted) {
 	    this.model.itemCompleted(id, isCompleted);
 	    this.render();
+	  },
+	  titleEdit: function titleEdit(newTitle, id) {
+	    this.model.editTitle(newTitle, id);
+	    this.render();
 	  }
 	});
 	
@@ -10144,7 +10155,9 @@
 	  className: 'list-group-item row',
 	  events: {
 	    'click .close': 'removeItem',
-	    'change .completed-checkbox': 'completedClicked' // change, not click, because from field
+	    'change .completed-checkbox': 'completedClicked', // change, not click, because from field
+	    'click .title': 'titleClicked',
+	    'keypress .title-edit-input': 'titleEditConfirm'
 	  },
 	  template: _handlebars2['default'].compile(_templatesTodoItemHtml2['default']), // compiled once, then re-rendered multiple times
 	  initialize: function initialize(todo) {
@@ -10153,6 +10166,9 @@
 	  },
 	  render: function render() {
 	    this.$el.html(this.template(this.data)); // this.$el is generated in tagName, and is what is rendered
+	    this.$title = this.$el.find('.title');
+	    this.$titleEdit = this.$el.find('.title-edit');
+	    this.$titleInput = this.$titleEdit.find('.title-edit-input');
 	    this.$el.toggleClass('disabled', this.data.completed);
 	  },
 	  removeItem: function removeItem() {
@@ -10162,6 +10178,19 @@
 	  completedClicked: function completedClicked(event) {
 	    var isChecked = $(event.target).is(':checked'); // jquery converts the CSS selector :checked to a true or false
 	    todoControllerView.itemCompleted(this.data.id, isChecked);
+	  },
+	  titleClicked: function titleClicked() {
+	    this.$title.addClass('hidden');
+	    this.$titleEdit.removeClass('hidden');
+	    this.$titleInput.focus();
+	    // in jquery: this.$title.add(this.$titleEdit).remove('hidden');
+	  },
+	  titleEditConfirm: function titleEditConfirm(event) {
+	    if (event.which === 13) {
+	      // they hit the enter key
+	      var newTitle = this.$titleInput.val();
+	      todoControllerView.titleEdit(newTitle, this.data.id);
+	    }
 	  }
 	});
 	
@@ -18796,7 +18825,7 @@
 /* 40 */
 /***/ function(module, exports) {
 
-	module.exports = "<!--<li class=\"list-group-item row\"> {{#if completed}}disabled{{/if}}\"> -->\n<div class=\"col-sm-1\">\n  <input class=\"completed-checkbox\" type=\"checkbox\" {{#if completed}}checked{{/if}}> <!-- {{#if completed}}checked{{/if}} value=\"\"> -->\n</div>\n<div class=\"col-sm-10 title\">{{title}}</div>\n<div class=\"col-sm-10 title-edit hidden\">\n  <input type=\"text\" class=\"form-control\" value=\"{{title}}\" data-id=\"{{id}}\">\n</div>\n<div class=\"col-sm-1\"> \n  <button type=\"button\" class=\"close\" aria-label=\"Close\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<!--  </li>  -->";
+	module.exports = "<!--<li class=\"list-group-item row\"> {{#if completed}}disabled{{/if}}\"> -->\n<div class=\"col-sm-1\">\n  <input class=\"completed-checkbox\" type=\"checkbox\" {{#if completed}}checked{{/if}}> <!-- {{#if completed}}checked{{/if}} value=\"\"> -->\n</div>\n<div class=\"col-sm-10 title\">{{title}}</div>\n<div class=\"col-sm-10 title-edit hidden\">\n  <input type=\"text\" class=\"form-control title-edit-input\" value=\"{{title}}\">\n</div>\n<div class=\"col-sm-1\"> \n  <button type=\"button\" class=\"close\" aria-label=\"Close\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<!--  </li>  -->";
 
 /***/ },
 /* 41 */

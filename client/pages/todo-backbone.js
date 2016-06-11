@@ -74,12 +74,19 @@ TodoModel = Backbone.Model.extend({  // e.g. TodoModelClass
     item.completed = isCompleted;
     this.set('todos', todos);
     this.save();
-  }  
+  },
+  editTitle: function(newTitle, id){
+    var todos = this.get('todos');
+    var item = _.findWhere(todos, {id: id});  // the first id is not a variable, it's the first of a key value pair
+    item.title = newTitle;
+    this.set('todos', todos);
+    this.save();
+  }
 });
 
 todoModel = new TodoModel();
 
-// Controller View
+// Controller View: shifts between model and view, transport of data from model to view and back
 
 TodoControllerView = Backbone.View.extend({
   el: '.todo-container',  // backbone automatically makes 'el' a '$el'// html element that has the class .container, refers to this DOM node; this is a jquery selector
@@ -118,6 +125,10 @@ TodoControllerView = Backbone.View.extend({
   itemCompleted: function(id, isCompleted){
     this.model.itemCompleted(id, isCompleted);
     this.render();
+  },
+  titleEdit: function(newTitle, id){
+    this.model.editTitle(newTitle, id);
+    this.render();
   }
 });
  
@@ -126,7 +137,9 @@ TodoItemView = Backbone.View.extend({   // these are the user events; this is th
   className: 'list-group-item row',
   events: {
     'click .close': 'removeItem',
-    'change .completed-checkbox': 'completedClicked'  // change, not click, because from field
+    'change .completed-checkbox': 'completedClicked',  // change, not click, because from field
+    'click .title': 'titleClicked',
+    'keypress .title-edit-input': 'titleEditConfirm'
   },
   template: Handlebars.compile(todoItemTemplate),  // compiled once, then re-rendered multiple times
   initialize: function(todo){
@@ -135,6 +148,9 @@ TodoItemView = Backbone.View.extend({   // these are the user events; this is th
   },
   render: function(){
     this.$el.html(this.template(this.data));  // this.$el is generated in tagName, and is what is rendered
+    this.$title = this.$el.find('.title');
+    this.$titleEdit = this.$el.find('.title-edit');
+    this.$titleInput = this.$titleEdit.find('.title-edit-input');
     this.$el.toggleClass('disabled', this.data.completed);  
 
   },
@@ -145,6 +161,19 @@ TodoItemView = Backbone.View.extend({   // these are the user events; this is th
   completedClicked: function(event){
     var isChecked = $(event.target).is(':checked');  // jquery converts the CSS selector :checked to a true or false
     todoControllerView.itemCompleted(this.data.id, isChecked);
+  },
+  titleClicked: function(){
+    this.$title.addClass('hidden');
+    this.$titleEdit.removeClass('hidden');
+    this.$titleInput.focus();
+    // in jquery: this.$title.add(this.$titleEdit).remove('hidden');
+  },
+  titleEditConfirm: function(event){
+    if (event.which === 13) {
+      // they hit the enter key
+      var newTitle = this.$titleInput.val();
+      todoControllerView.titleEdit(newTitle, this.data.id);
+    }
   }
 });
 
