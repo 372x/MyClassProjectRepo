@@ -1,0 +1,4 @@
+
+[{"title":"example"}]
+[]  // = simplest database possible
+// an array is a flat-face database.  slow but simple

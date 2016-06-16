@@ -1,0 +1,22 @@
+
+.search-container {
+	
+	.photo {
+	  width: 100px;
+	  height: 100px;
+	  overflow: hidden;
+	  display: inline-block;
+
+	  img {
+	  	width: 100%;
+	  }
+	} 
+
+}
+
+/* without SASS:
+.search-container .photo img {
+	width: 100%;
+}
+
+SASS allows us to do this nesting of css; SASS is part of webpack */

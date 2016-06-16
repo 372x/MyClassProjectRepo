@@ -1,4 +1,12 @@
-<!--<li class="list-group-item row"> {{#if completed}}disabled{{/if}}"> -->
+<!--<li class="list-group-item row"> {{#if completed}}disabled{{/if}}">  -->
+
+<div class="col-sm-1">
+  {{#if completed}}
+    <input class="completed-checkbox" type="checkbox" checked>
+  {{else}}
+  <input class="completed-checkbox" type="checkbox">
+  {{if}}
+
 <div class="col-sm-1">
   <input class="completed-checkbox" type="checkbox" {{#if completed}}checked{{/if}}> <!-- {{#if completed}}checked{{/if}} value=""> -->
 </div>

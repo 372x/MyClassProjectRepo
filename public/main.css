@@ -157,6 +157,23 @@ h1 {
 }
 
 /* all divs are position:relative to start; */
+.search-container .photo {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.search-container .photo img {
+  width: 100%;
+}
+
+/* without SASS:
+.search-container .photo img {
+	width: 100%;
+}
+
+SASS allows us to do this nesting of css; SASS is part of webpack */
 video {
   height: 240px;
   width: 320px;

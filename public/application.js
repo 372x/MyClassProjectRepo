@@ -56,37 +56,44 @@
 	
 	__webpack_require__(2);
 	
-	var _pagesTodoBackbone = __webpack_require__(6);
+	// import todos from 'pages/todo-backbone';  // todos is what was app on the todo.js file
+	// import todos from 'pages/todo/todoController';  // todos is what was app on the todo.js file
 	
-	var _pagesTodoBackbone2 = _interopRequireDefault(_pagesTodoBackbone);
+	var _pagesTodoTodoController = __webpack_require__(6);
+	
+	var _pagesTodoTodoController2 = _interopRequireDefault(_pagesTodoTodoController);
 	
 	// todos is what was app on the todo.js file
 	
-	var _pagesProject = __webpack_require__(54);
+	var _pagesProject = __webpack_require__(56);
 	
 	var _pagesProject2 = _interopRequireDefault(_pagesProject);
 	
-	var _pagesFunnySquares = __webpack_require__(55);
+	var _pagesFunnySquares = __webpack_require__(57);
 	
 	var _pagesFunnySquares2 = _interopRequireDefault(_pagesFunnySquares);
 	
-	var _componentsHeader = __webpack_require__(57);
+	var _componentsHeader = __webpack_require__(59);
 	
 	var _componentsHeader2 = _interopRequireDefault(_componentsHeader);
 	
-	var _componentsMain = __webpack_require__(59);
+	var _componentsMain = __webpack_require__(61);
 	
 	var _componentsMain2 = _interopRequireDefault(_componentsMain);
 	
 	// NEW NEW NEW
 	
-	var _componentsFooter = __webpack_require__(60);
+	var _componentsFooter = __webpack_require__(62);
 	
 	var _componentsFooter2 = _interopRequireDefault(_componentsFooter);
 	
 	// NEW NEW NEW
 	// import formsBackbone from 'pages/formsBackbone';
 	// import listTemplate from 'templates/accountList.html';
+	
+	var _pagesPhotoSearch = __webpack_require__(63);
+	
+	var _pagesPhotoSearch2 = _interopRequireDefault(_pagesPhotoSearch);
 	
 	(0, _jquery2['default'])(function () {
 	  // $('header').append(navbar);
@@ -100,7 +107,7 @@
 	  switch (url) {// switch statement; going to look for lots of values of 'url'; executes same as if statement, but better syntax, better-looking code
 	    case '/pages/todo.html':
 	      // takes place of if statement
-	      _pagesTodoBackbone2['default'].render(); // todos.init();
+	      todos.render(); // todos.init();
 	      break;
 	    case '/pages/project.html':
 	      // init the project javascript
@@ -110,10 +117,25 @@
 	      _pagesFunnySquares2['default'].init();
 	      break;
 	
+	    case '/pages/photoSearch.html':
+	      _pagesPhotoSearch2['default'].init();
+	      break;
+	
+	    case '/pages/todo.html':
+	      var todoControllerView = new _pagesTodoTodoController2['default']();
+	      break;
+	
+	    case '/':
+	      // init the project javascript
+	      // home.init();
+	      break;
+	
 	    /* case '/pages/formsBackbone.html':
 	        formsBackbone.render();
-	    break;
-	    default: break;  */
+	    break; */
+	
+	    default:
+	      break;
 	  }
 	
 	  // if (url === 'pages/todo.html'){
@@ -123,15 +145,15 @@
 	});
 	
 	// this file manages all the pages of our website
-	
+
 	// Fancy Console Message for Developers only to see; it's all all pages if it's on app.jsx, can move to home page only
-	console.log('============================');
-	console.log('============================');
-	console.log('===I am looking for a job===');
-	console.log('============================');
-	console.log('==========call me===========');
-	console.log('============================');
-	console.log('============================');
+	// console.log('============================');
+	// console.log('============================');
+	// console.log('===I am looking for a job===');
+	// console.log('============================');
+	// console.log('==========call me===========');
+	// console.log('============================');
+	// console.log('============================');
 
 /***/ },
 /* 1 */
@@ -9986,7 +10008,7 @@
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
-	module.exports = {"todo-container":"todo-container","add-todo-container":"add-todo-container","col-md-10":"col-md-10","col-md-2":"col-md-2","main-image":"main-image","page-header":"page-header","footer":"footer","footer-text":"footer-text","thumbnail":"thumbnail","thumbnail1":"thumbnail1","row3":"row3","thumbnail-block":"thumbnail-block","square":"square","square-container":"square-container","square1":"square1","square2":"square2","square3":"square3","square4":"square4","square5":"square5","square6":"square6","page-container":"page-container"};
+	module.exports = {"todo-container":"todo-container","add-todo-container":"add-todo-container","col-md-10":"col-md-10","col-md-2":"col-md-2","main-image":"main-image","page-header":"page-header","footer":"footer","footer-text":"footer-text","thumbnail":"thumbnail","thumbnail1":"thumbnail1","row3":"row3","thumbnail-block":"thumbnail-block","square":"square","square-container":"square-container","square1":"square1","square2":"square2","square3":"square3","square4":"square4","square5":"square5","square6":"square6","page-container":"page-container","search-container":"search-container","photo":"photo"};
 
 /***/ },
 /* 3 */,
@@ -10013,114 +10035,44 @@
 	
 	var _handlebars2 = _interopRequireDefault(_handlebars);
 	
-	var _lscache = __webpack_require__(39);
+	// import lscache from 'lscache';
 	
-	var _lscache2 = _interopRequireDefault(_lscache);
+	var _pagesTodoTodoModel = __webpack_require__(39);
 	
-	var _templatesTodoItemHtml = __webpack_require__(40);
+	var _pagesTodoTodoModel2 = _interopRequireDefault(_pagesTodoTodoModel);
 	
-	var _templatesTodoItemHtml2 = _interopRequireDefault(_templatesTodoItemHtml);
+	var _pagesTodoTodoView = __webpack_require__(54);
 	
-	// Backbone Todo App
+	var _pagesTodoTodoView2 = _interopRequireDefault(_pagesTodoTodoView);
+	
+	// Controller View
 	
 	var $ = __webpack_require__(1);
 	window.jQuery = window.$ = $;
 	__webpack_require__(41);
 	
-	var TodoModel; // these are the classes
-	var TodoControllerView; // these are the classes
-	var TodoView; // these are the classes
-	var TodoItemView;
-	
-	var todoModel;
-	var todoControllerView;
-	
-	// Model
-	TodoModel = _backbone2['default'].Model.extend({ // e.g. TodoModelClass
-	  defaults: {
-	    todos: []
-	  },
-	  todoSchema: { // this schema affects all the data coming in and out of model
-	    id: 0, // gives a unique identifier to this
-	    title: '',
-	    completed: false
-	  },
-	  fetch: function fetch() {
-	    // debugger;
-	    var data = _lscache2['default'].get('todos');
-	    data = this.applySchema(data);
-	    this.set('todos', data); // this sets the value of the todos to the value of 'data'
-	    // this takes the data from lscachs and put it in our model
-	  },
-	  save: function save() {
-	    // debugger;
-	    var data = this.get('todos');
-	    data = this.applySchema(data);
-	    _lscache2['default'].set('todos', data);
-	  },
-	  applySchema: function applySchema(todos) {
-	    var data = todos;
-	    var schema = this.todoSchema; // classic Backbone bug: the 'this.todoSchema' is undefined because it hasn't been defined within this function.
-	    data = _underscore2['default'].isArray(todos) ? data : []; // shorthand if statement; stuff in parens is the condition to be evaluated for true or false.  If true, us the value after the '?', if false, use the stuff after the ':'
-	    // shorthand only for simple if else statement
-	    // ensuring this is an array
-	    data = data.map(function (todo, index) {
-	      // applies the enclosed function to each todo
-	      todo.id = index; // index of the array?
-	      return _underscore2['default'].defaults(todo, schema); // was: defaults(todo, this.todoSchema) // this is the output value
-	    }); // stores the mapped data back into data variable
-	    return data;
-	  },
-	  addItem: function addItem(newTitle) {
-	    var newTodo = { title: newTitle };
-	    var todos = this.get('todos');
-	    todos.push(newTodo);
-	    this.set('todos', todos);
-	    this.save(); //
-	  },
-	  removeItem: function removeItem(id) {
-	    // takes the item out of the model and calls .save
-	    var todos = this.get('todos');
-	    todos.splice(id, 1);
-	    this.save();
-	  },
-	  itemCompleted: function itemCompleted(id, isCompleted) {
-	    var todos = this.get('todos');
-	    var item = _underscore2['default'].findWhere(todos, { id: id }); // the first id is not a variable, it's the first of a key value pair
-	    item.completed = isCompleted;
-	    this.set('todos', todos);
-	    this.save();
-	  },
-	  editTitle: function editTitle(newTitle, id) {
-	    var todos = this.get('todos');
-	    var item = _underscore2['default'].findWhere(todos, { id: id }); // the first id is not a variable, it's the first of a key value pair
-	    item.title = newTitle;
-	    this.set('todos', todos);
-	    this.save();
-	  }
-	});
-	
-	todoModel = new TodoModel();
-	
-	// Controller View: shifts between model and view, transport of data from model to view and back
-	
-	TodoControllerView = _backbone2['default'].View.extend({
+	var TodoControllerView = _backbone2['default'].View.extend({
 	  el: '.todo-container', // backbone automatically makes 'el' a '$el'// html element that has the class .container, refers to this DOM node; this is a jquery selector
-	  model: todoModel,
+	  model: _pagesTodoTodoModel2['default'],
 	  events: {
 	    'click .btn-add': 'addTodoItem'
 	  },
-	  inititalize: function inititalize() {
-	    this.model.fetch();
+	  initialize: function initialize() {
+	    this.model.fetch(); // fetch is an ajax request, so might take some time but render will happen right away
+	    // go fetch this model, and when you have it,render it
+	    // instead of 'this.render;''  use backbone feature that allows it to listen to a model
+	    // this.listenTo(this.model, 'change', this.render);  // backbone approach
+	    this.model.on('change', this.render, this); // instructor prefers this
 	  },
 	  render: function render() {
 	    // debugger;
 	    // render the todo items
 	    var todos = this.model.get('todos');
-	    var $ul = this.$el.find('ul');
+	    var $ul = this.$el.find('.list-group');
 	    $ul.html('');
+	    var controller = this;
 	    todos.map(function (todo) {
-	      var view = new TodoItemView(todo);
+	      var view = new _pagesTodoTodoView2['default'](todo, controller);
 	      $ul.append(view.$el); // can't do an append inside a .mpa  // reading to and from the DOM is slow,and appending in writing to the DOM, and map is doing an append for every item in the todo
 	    });
 	  }, // render does all the visual parts
@@ -10150,53 +10102,9 @@
 	  }
 	});
 	
-	TodoItemView = _backbone2['default'].View.extend({ // these are the user events; this is the class of TodoItemView
-	  tagName: 'li', // el = <li>   i.e. el = an empty 'li' tag // 'el' is used when the item actually exists,, otherwise tagName is a placeholder, el will need to be appended at some point to the DOM   
-	  className: 'list-group-item row',
-	  events: {
-	    'click .close': 'removeItem',
-	    'change .completed-checkbox': 'completedClicked', // change, not click, because from field
-	    'click .title': 'titleClicked',
-	    'keypress .title-edit-input': 'titleEditConfirm'
-	  },
-	  template: _handlebars2['default'].compile(_templatesTodoItemHtml2['default']), // compiled once, then re-rendered multiple times
-	  initialize: function initialize(todo) {
-	    this.data = todo;
-	    this.render();
-	  },
-	  render: function render() {
-	    this.$el.html(this.template(this.data)); // this.$el is generated in tagName, and is what is rendered
-	    this.$title = this.$el.find('.title');
-	    this.$titleEdit = this.$el.find('.title-edit');
-	    this.$titleInput = this.$titleEdit.find('.title-edit-input');
-	    this.$el.toggleClass('disabled', this.data.completed);
-	  },
-	  removeItem: function removeItem() {
-	    // get the id of the current item and remove it from the DOM
-	    todoControllerView.removeItem(this.data.id); // the controller is what connects to the view model
-	  },
-	  completedClicked: function completedClicked(event) {
-	    var isChecked = $(event.target).is(':checked'); // jquery converts the CSS selector :checked to a true or false
-	    todoControllerView.itemCompleted(this.data.id, isChecked);
-	  },
-	  titleClicked: function titleClicked() {
-	    this.$title.addClass('hidden');
-	    this.$titleEdit.removeClass('hidden');
-	    this.$titleInput.focus();
-	    // in jquery: this.$title.add(this.$titleEdit).remove('hidden');
-	  },
-	  titleEditConfirm: function titleEditConfirm(event) {
-	    if (event.which === 13) {
-	      // they hit the enter key
-	      var newTitle = this.$titleInput.val();
-	      todoControllerView.titleEdit(newTitle, this.data.id);
-	    }
-	  }
-	});
+	// todoControllerView = new TodoControllerView();  // this calls 'initialize'
 	
-	todoControllerView = new TodoControllerView(); // this calls 'initialize'
-	
-	module.exports = todoControllerView;
+	module.exports = TodoControllerView;
 
 /***/ },
 /* 7 */
@@ -18469,6 +18377,110 @@
 /* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _underscore = __webpack_require__(7);
+	
+	var _underscore2 = _interopRequireDefault(_underscore);
+	
+	var _backbone = __webpack_require__(8);
+	
+	var _backbone2 = _interopRequireDefault(_backbone);
+	
+	var _lscache = __webpack_require__(40);
+	
+	var _lscache2 = _interopRequireDefault(_lscache);
+	
+	// Model
+	var $ = __webpack_require__(1);
+	window.jQuery = window.$ = $;
+	__webpack_require__(41);
+	
+	var TodoModel = _backbone2['default'].Model.extend({ // e.g. TodoModelClass
+	  defaults: {
+	    todos: []
+	  },
+	  todoSchema: { // this schema affects all the data coming in and out of model
+	    id: 0, // gives a unique identifier to this
+	    title: '',
+	    completed: false
+	  },
+	  fetch: function fetch() {
+	    var that = this;
+	    // debugger;
+	    // var data = lscache.get('todos');
+	    // data = this.applySchema(data);
+	    // this.set('todos', data);  // this sets the value of the todos to the value of 'data'
+	    // this takes the data from lscachs and put it in our model
+	    $.ajax({ // this is all one big object that gets sent to AJAX, but we don't know when it will complete
+	      url: '/api',
+	      method: 'GET',
+	      complete: function complete(response) {
+	        var dataString = resonse.responseText;
+	        var data = JSON.parse(dataString);
+	        data = that.applySchema(data); // apply schema to parsed string
+	        that.set('todos', data); // sets it into local model
+	      }
+	    });
+	  },
+	  save: function save() {
+	    // debugger;
+	    // var data = this.get('todos');
+	    // data = this.applySchema(data);
+	    // lscache.set('todos', data);
+	  },
+	  applySchema: function applySchema(todos) {
+	    var data = todos;
+	    var schema = this.todoSchema; // classic Backbone bug: the 'this.todoSchema' is undefined because it hasn't been defined within this function.
+	    data = _underscore2['default'].isArray(todos) ? data : []; // shorthand if statement; stuff in parens is the condition to be evaluated for true or false.  If true, us the value after the '?', if false, use the stuff after the ':'
+	    // shorthand only for simple if else statement
+	    // ensuring this is an array
+	    data = data.map(function (todo, index) {
+	      // applies the enclosed function to each todo
+	      todo.id = index; // index of the array?
+	      return _underscore2['default'].defaults(todo, schema); // was: defaults(todo, this.todoSchema) // this is the output value
+	    }); // stores the mapped data back into data variable
+	    return data;
+	  },
+	  addItem: function addItem(newTitle) {
+	    var newTodo = { title: newTitle };
+	    var todos = this.get('todos');
+	    todos.push(newTodo);
+	    this.set('todos', todos);
+	    this.save(); //
+	  },
+	  removeItem: function removeItem(id) {
+	    // takes the item out of the model and calls .save
+	    var todos = this.get('todos');
+	    todos.splice(id, 1);
+	    this.save();
+	  },
+	  itemCompleted: function itemCompleted(id, isCompleted) {
+	    var todos = this.get('todos');
+	    var item = _underscore2['default'].findWhere(todos, { id: id }); // the first id is not a variable, it's the first of a key value pair
+	    item.completed = isCompleted;
+	    this.set('todos', todos);
+	    this.save();
+	  },
+	  editTitle: function editTitle(newTitle, id) {
+	    var todos = this.get('todos');
+	    var item = _underscore2['default'].findWhere(todos, { id: id }); // the first id is not a variable, it's the first of a key value pair
+	    item.title = newTitle;
+	    this.set('todos', todos);
+	    this.save();
+	  }
+	});
+	
+	var todoModel = new TodoModel();
+	
+	module.exports = todoModel;
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
 	 * lscache library
 	 * Copyright (c) 2011, Pamela Fox
@@ -18820,12 +18832,6 @@
 	  return lscache;
 	}));
 
-
-/***/ },
-/* 40 */
-/***/ function(module, exports) {
-
-	module.exports = "<!--<li class=\"list-group-item row\"> {{#if completed}}disabled{{/if}}\"> -->\n<div class=\"col-sm-1\">\n  <input class=\"completed-checkbox\" type=\"checkbox\" {{#if completed}}checked{{/if}}> <!-- {{#if completed}}checked{{/if}} value=\"\"> -->\n</div>\n<div class=\"col-sm-10 title\">{{title}}</div>\n<div class=\"col-sm-10 title-edit hidden\">\n  <input type=\"text\" class=\"form-control title-edit-input\" value=\"{{title}}\">\n</div>\n<div class=\"col-sm-1\"> \n  <button type=\"button\" class=\"close\" aria-label=\"Close\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<!--  </li>  -->";
 
 /***/ },
 /* 41 */
@@ -21253,6 +21259,96 @@
 
 /***/ },
 /* 54 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _underscore = __webpack_require__(7);
+	
+	var _underscore2 = _interopRequireDefault(_underscore);
+	
+	// backbone relies on underscore and needs to come after it in the imports
+	
+	var _backbone = __webpack_require__(8);
+	
+	var _backbone2 = _interopRequireDefault(_backbone);
+	
+	var _handlebars = __webpack_require__(9);
+	
+	var _handlebars2 = _interopRequireDefault(_handlebars);
+	
+	// import lscache from 'lscache';
+	
+	var _templatesTodoItemHtml = __webpack_require__(55);
+	
+	var _templatesTodoItemHtml2 = _interopRequireDefault(_templatesTodoItemHtml);
+	
+	// import todoControllerView from 'pages/todo/todoControllerView';
+	
+	var $ = __webpack_require__(1);
+	window.jQuery = window.$ = $;
+	__webpack_require__(41);
+	
+	var TodoItemView = _backbone2['default'].View.extend({ // these are the user events; this is the class of TodoItemView
+	  tagName: 'li', // el = <li>   i.e. el = an empty 'li' tag // 'el' is used when the item actually exists,, otherwise tagName is a placeholder, el will need to be appended at some point to the DOM   
+	  className: 'list-group-item row',
+	  events: {
+	    'click .close': 'removeItem',
+	    'change .completed-checkbox': 'completedClicked', // change, not click, because from field
+	    'click .title': 'titleClicked',
+	    'keypress .title-edit-input': 'titleEditConfirm'
+	  },
+	  template: _handlebars2['default'].compile(_templatesTodoItemHtml2['default']), // compiled once, then re-rendered multiple times
+	  initialize: function initialize(todo, controller) {
+	    this.controller = controller;
+	    this.data = todo;
+	    this.render();
+	  },
+	  render: function render() {
+	    this.$el.html(this.template(this.data)); // this.$el is generated in tagName, and is what is rendered
+	    this.$title = this.$el.find('.title');
+	    this.$titleEdit = this.$el.find('.title-edit');
+	    this.$titleInput = this.$titleEdit.find('.title-edit-input');
+	    this.$el.toggleClass('disabled', this.data.completed);
+	  },
+	  removeItem: function removeItem() {
+	    // get the id of the current item and remove it from the DOM
+	    this.controller.removeItem(this.data.id); // the controller is what connects to the view model   
+	    // todoControllerView.removeItem(this.data.id);  // the controller is what connects to the view model
+	  },
+	  completedClicked: function completedClicked(event) {
+	    var isChecked = $(event.target).is(':checked'); // jquery converts the CSS selector :checked to a true or false
+	    this.controller.itemCompleted(this.data.id, isChecked);
+	    // todoControllerView.itemCompleted(this.data.id, isChecked);
+	  },
+	  titleClicked: function titleClicked() {
+	    this.$title.addClass('hidden');
+	    this.$titleEdit.removeClass('hidden');
+	    this.$titleInput.focus();
+	    // in jquery: this.$title.add(this.$titleEdit).remove('hidden');
+	  },
+	  titleEditConfirm: function titleEditConfirm(event) {
+	    if (event.which === 13) {
+	      // they hit the enter key
+	      var newTitle = this.$titleInput.val();
+	      // todoControllerView.titleEdit(newTitle, this.data.id);
+	      this.controller.titleEdit(newTitle, this.data.id);
+	    }
+	  }
+	});
+	
+	module.exports = TodoItemView;
+
+/***/ },
+/* 55 */
+/***/ function(module, exports) {
+
+	module.exports = "<!--<li class=\"list-group-item row\"> {{#if completed}}disabled{{/if}}\">  -->\n\n<div class=\"col-sm-1\">\n  {{#if completed}}\n    <input class=\"completed-checkbox\" type=\"checkbox\" checked>\n  {{else}}\n  <input class=\"completed-checkbox\" type=\"checkbox\">\n  {{if}}\n\n<div class=\"col-sm-1\">\n  <input class=\"completed-checkbox\" type=\"checkbox\" {{#if completed}}checked{{/if}}> <!-- {{#if completed}}checked{{/if}} value=\"\"> -->\n</div>\n<div class=\"col-sm-10 title\">{{title}}</div>\n<div class=\"col-sm-10 title-edit hidden\">\n  <input type=\"text\" class=\"form-control title-edit-input\" value=\"{{title}}\">\n</div>\n<div class=\"col-sm-1\"> \n  <button type=\"button\" class=\"close\" aria-label=\"Close\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<!--  </li>  -->";
+
+/***/ },
+/* 56 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -21261,7 +21357,7 @@
 	module.exports = app;
 
 /***/ },
-/* 55 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21276,7 +21372,7 @@
 	
 	var _underscore2 = _interopRequireDefault(_underscore);
 	
-	var _templatesFunnySquareHtml = __webpack_require__(56);
+	var _templatesFunnySquareHtml = __webpack_require__(58);
 	
 	var _templatesFunnySquareHtml2 = _interopRequireDefault(_templatesFunnySquareHtml);
 	
@@ -21306,13 +21402,13 @@
 	module.exports = app;
 
 /***/ },
-/* 56 */
+/* 58 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"square-container\">\n  <div class=\"square square{{id}}\">\n    <div class=\"inner\">{{id}}</div>\n  </div>\n</div>";
 
 /***/ },
-/* 57 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21323,7 +21419,7 @@
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _templatesNavbarHtml = __webpack_require__(58);
+	var _templatesNavbarHtml = __webpack_require__(60);
 	
 	var _templatesNavbarHtml2 = _interopRequireDefault(_templatesNavbarHtml);
 	
@@ -21340,13 +21436,13 @@
 	module.exports = app;
 
 /***/ },
-/* 58 */
+/* 60 */
 /***/ function(module, exports) {
 
-	module.exports = " <link rel=\"stylesheet\" type=\"text/css\" href=\"/css/bootstrap.min.css\">\n<nav>\n  <!-- <a role=\"menuitem\" href=\"/pages/todo.html\">Todo Application</a> -->\n  <!-- <a role=\"menuitem\" href=\"/pages/project.html\">My Project</a> -->\n  <!-- <a role=\"menuitem\" href=\"/pages/funnySquares.html\">Funny Squares</a> -->\n  <!-- <a role=\"menuitem\" href=\"/pages/formsBackbone.html\">Backbone Forms</a> -->\n\n</nav>\n\n<nav class=\"navbar navbar-default\">\n  <div class=\"container-fluid\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n        <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n      </button>\n      <a class=\"navbar-brand\" href=\"#\">Brand</a>\n    </div>\n\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n      <ul class=\"nav navbar-nav\">\n        <li class=\"active\"><a href=\"#\"><a role=\"menuitem\" href=\"/pages/todo.html\">Todo Application</a><span class=\"sr-only\">(current)</span></a></li>\n        <li><a href=\"#\"><a role=\"menuitem\" href=\"/pages/project.html\">My Project</a></a></li>\n        <li class=\"active\"><a href=\"#\"><a role=\"menuitem\" href=\"/pages/funnySquares.html\">Funny Squares</a><span class=\"sr-only\">(current)</span></a></li>\n        <!-- <li class=\"active\"><a href=\"#\"><a role=\"menuitem\" href=\"/pages/formsBackbone.html\">Backbone Forms</a><span class=\"sr-only\">(current)</span></a></li>  -->\n        <!-- <li class=\"active\"><a href=\"#\"><a role=\"menuitem\" href=\"/pages/D3ProjectTestDrive.html\">D3 Chart</a><span class=\"sr-only\">(current)</span></a></li>  -->\n        <li class=\"dropdown\">\n          <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown <span class=\"caret\"></span></a>\n          <ul class=\"dropdown-menu\">\n            <li><a href=\"#\">Action</a></li>\n            <li><a href=\"#\">Another action</a></li>\n            <li><a href=\"#\">Something else here</a></li>\n            <li role=\"separator\" class=\"divider\"></li>\n            <li><a href=\"#\">Separated link</a></li>\n            <li role=\"separator\" class=\"divider\"></li>\n            <li><a href=\"#\">One more separated link</a></li>\n          </ul>\n        </li>\n      </ul>\n      <form class=\"navbar-form navbar-left\" role=\"search\">\n        <div class=\"form-group\">\n          <input type=\"text\" class=\"form-control\" placeholder=\"Search\">\n        </div>\n        <button type=\"submit\" class=\"btn btn-default\">Submit</button>\n      </form>\n      <ul class=\"nav navbar-nav navbar-right\">\n        <li><a href=\"#\">Link</a></li>\n        <li class=\"dropdown\">\n          <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown <span class=\"caret\"></span></a>\n          <ul class=\"dropdown-menu\">\n            <li><a href=\"#\">Action</a></li>\n            <li><a href=\"#\">Another action</a></li>\n            <li><a href=\"#\">Something else here</a></li>\n            <li role=\"separator\" class=\"divider\"></li>\n            <li><a href=\"#\">Separated link</a></li>\n          </ul>\n        </li>\n      </ul>\n    </div><!-- /.navbar-collapse -->\n  </div><!-- /.container-fluid -->\n</nav>";
+	module.exports = " <link rel=\"stylesheet\" type=\"text/css\" href=\"/css/bootstrap.min.css\">\n<nav>\n  <!-- <a role=\"menuitem\" href=\"/pages/todo.html\">Todo Application</a> -->\n  <!-- <a role=\"menuitem\" href=\"/pages/project.html\">My Project</a> -->\n  <!-- <a role=\"menuitem\" href=\"/pages/funnySquares.html\">Funny Squares</a> -->\n  <!-- <a role=\"menuitem\" href=\"/pages/formsBackbone.html\">Backbone Forms</a> -->\n  <!-- <a role=\"menuitem\" href=\"/pages/photoSearch.html\">Photo Search</a> -->\n\n</nav>\n\n<nav class=\"navbar navbar-default\">\n  <div class=\"container-fluid\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n        <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n      </button>\n      <a class=\"navbar-brand\" href=\"#\">Brand</a>\n    </div>\n\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n      <ul class=\"nav navbar-nav\">\n        <li class=\"active\"><a href=\"#\"><a role=\"menuitem\" href=\"/pages/todo.html\">Todo Application</a><span class=\"sr-only\">(current)</span></a></li>\n        <li><a href=\"#\"><a role=\"menuitem\" href=\"/pages/project.html\">My Project</a></a></li>\n        <li class=\"active\"><a href=\"#\"><a role=\"menuitem\" href=\"/pages/funnySquares.html\">Funny Squares</a><span class=\"sr-only\">(current)</span></a></li>\n        <li class=\"active\"><a href=\"#\"><a role=\"menuitem\" href=\"/pages/photoSearch.html\">Photo Search</a><span class=\"sr-only\">(current)</span></a></li>        \n        <li class=\"active\"><a href=\"#\"><a role=\"menuitem\" href=\"/pages/formsBackbone.html\">Backbone Forms</a><span class=\"sr-only\">(current)</span></a></li>\n        <!-- <li class=\"active\"><a href=\"#\"><a role=\"menuitem\" href=\"/pages/D3ProjectTestDrive.html\">D3 Chart</a><span class=\"sr-only\">(current)</span></a></li>  -->\n        <li class=\"dropdown\">\n          <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown <span class=\"caret\"></span></a>\n          <ul class=\"dropdown-menu\">\n            <li><a href=\"#\">Action</a></li>\n            <li><a href=\"#\">Another action</a></li>\n            <li><a href=\"#\">Something else here</a></li>\n            <li role=\"separator\" class=\"divider\"></li>\n            <li><a href=\"#\">Separated link</a></li>\n            <li role=\"separator\" class=\"divider\"></li>\n            <li><a href=\"#\">One more separated link</a></li>\n          </ul>\n        </li>\n      </ul>\n      <form class=\"navbar-form navbar-left\" role=\"search\">\n        <div class=\"form-group\">\n          <input type=\"text\" class=\"form-control\" placeholder=\"Search\">\n        </div>\n        <button type=\"submit\" class=\"btn btn-default\">Submit</button>\n      </form>\n      <ul class=\"nav navbar-nav navbar-right\">\n        <li><a href=\"#\">Link</a></li>\n        <li class=\"dropdown\">\n          <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown <span class=\"caret\"></span></a>\n          <ul class=\"dropdown-menu\">\n            <li><a href=\"#\">Action</a></li>\n            <li><a href=\"#\">Another action</a></li>\n            <li><a href=\"#\">Something else here</a></li>\n            <li role=\"separator\" class=\"divider\"></li>\n            <li><a href=\"#\">Separated link</a></li>\n          </ul>\n        </li>\n      </ul>\n    </div><!-- /.navbar-collapse -->\n  </div><!-- /.container-fluid -->\n</nav>";
 
 /***/ },
-/* 59 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21372,7 +21468,7 @@
 	module.exports = app;
 
 /***/ },
-/* 60 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21396,6 +21492,149 @@
 	};
 	
 	module.exports = app;
+
+/***/ },
+/* 63 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _jquery = __webpack_require__(1);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _handlebars = __webpack_require__(9);
+	
+	var _handlebars2 = _interopRequireDefault(_handlebars);
+	
+	var _templatesFlickrImageHtml = __webpack_require__(64);
+	
+	var _templatesFlickrImageHtml2 = _interopRequireDefault(_templatesFlickrImageHtml);
+	
+	var compiledTemplate = _handlebars2['default'].compile(_templatesFlickrImageHtml2['default']);
+	
+	var app = {
+	  init: function init() {
+	    app.render();
+	  },
+	  render: function render() {
+	    app.$input = (0, _jquery2['default'])('.search-container input');
+	    app.bindEvents();
+	  },
+	  bindEvents: function bindEvents() {
+	    app.$input.on('keypress', app.searchKeypress);
+	  },
+	  searchKeypress: function searchKeypress(event) {
+	    if (event.which === 13) {
+	      app.doSearch();
+	    }
+	  },
+	  doSearch: function doSearch() {
+	    var phrase = app.$input.val();
+	    // AJAX request
+	    _jquery2['default'].ajax({ // asynchronous, which means we don't know when it will occur
+	      url: 'https://api.flickr.com/services/rest',
+	      method: 'GET', // retrieves data, use all CAPS for the method
+	      data: {
+	        text: phrase,
+	        method: 'flickr.photos.search',
+	        api_key: '731717db25329eb6aa65703cb6b71970',
+	        format: 'json',
+	        per_page: 30
+	      },
+	      complete: function complete(response) {
+	        // could also use a success: function(){} or an error: function(error){}, but complete is best
+	        var text = response.responseText;
+	        text = text.slice(14, text.length - 1);
+	        var data = JSON.parse(text);
+	        app.renderResults(data);
+	      }
+	    });
+	  },
+	  renderResults: function renderResults(data) {
+	    var html = '';
+	    var myPhotos = data.photos.photo;
+	    myPhotos.forEach(function (item) {
+	      html = html + compiledTemplate(item);
+	    });
+	    // var html = compiledTemplate(data.photos.photo[0]);
+	    // append result to the .search-result div, but use .html, b/c append doesn't remove the old stuff
+	    // .map would work, .each, _.each, _.map
+	    (0, _jquery2['default'])('.search-results').html(html);
+	  }
+	};
+	
+	module.exports = app;
+	
+	/*
+	import $ from 'jquery';
+	import Handlebars from 'handlebars';
+	import photoTemplate from 'templates/flickrImage.html';
+
+	var compiledTemplate = Handlebars.compile(photoTemplate);
+	var app = {
+	  init: function(){
+	    // app.render();
+	    app.bindEvents();
+	  },
+	  render: function(){
+	    // app.$input = $('.search-container input');
+	    // app.bindEvents();
+	    
+	  },
+	  bindEvents: function(){
+	    // app.$input.on('keypress', app.searchKeypress);
+	    $('.input-search').on('keypress', function(event){
+	      if (event.which === 13) {
+	        app.doSearch();
+	      }
+	    });
+	  },
+	  // searchKeypress: function(event){
+	  //  if (event.which === 13) {
+	  //    app.doSearch();
+	  //  }
+	  // },
+	  doSearch: function(){
+	    // var phrase = app.$input.val();
+	    var phrase = $('.input-search').val();
+	    // AJAX request
+	    $.ajax({
+	      url: 'https://api.flickr.com/services/rest',
+	      method: 'GET',
+	      data: {
+	        text: phrase,
+	        method: 'flickr.photos.search',
+	        api_key: '731717db25329eb6aa65703cb6b71970',
+	        format: 'json',
+	        per_page: 3
+	      },
+	      complete: function(response){
+	        var text = response.responseText;
+	        text = text.slice(14, text.length - 1);
+	        var data = JSON.parse(text);
+	        app.renderResults(data);
+	      }
+	    });
+	  },
+	  renderResults: function(data){
+	    // pass data to the template
+	    var html = compiledTemplate(data.photos.photo[0]);
+	    // append result to the .search-result div
+	    // .map
+	    $('.search-result').html(html);
+	  }
+	};
+
+	module.exports = app; */
+
+/***/ },
+/* 64 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"photo\">\n  <img src=\"https://farm{{farm}}.static.flickr.com/{{server}}/{{id}}_{{secret}}_b.jpg\">   \n</div>\n";
 
 /***/ }
 /******/ ]);
