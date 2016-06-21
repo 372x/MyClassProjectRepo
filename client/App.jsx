@@ -4,7 +4,8 @@ import $ from 'jquery';
 import 'styles/main.scss';
 // import todos from 'pages/todo-backbone';  // todos is what was app on the todo.js file
 // import todos from 'pages/todo/todoController';  // todos is what was app on the todo.js file
-import TodoControllerView from 'pages/todo/todoController';  // todos is what was app on the todo.js file
+// import TodoControllerView from 'pages/todo/todoController';  // todos is what was app on the todo.js file
+import TodoControllerView from 'pages/todoReact/todoController';
 import project from 'pages/project';
 import funnySquares from 'pages/funnySquares';
 import header from 'components/header';
@@ -24,9 +25,9 @@ $(function(){
 
     // our first javascript router; better syntax than if statement;
   switch (url){   // switch statement; going to look for lots of values of 'url'; executes same as if statement, but better syntax, better-looking code
-    case '/pages/todo.html':  // takes place of if statement
-    todos.render();   // todos.init();
-		break;
+    // case '/pages/todo.html':  // takes place of if statement
+    // todos.render();   // todos.init();
+		// break;
     
     case '/pages/project.html':
         // init the project javascript
