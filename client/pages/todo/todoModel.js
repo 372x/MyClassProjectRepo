@@ -18,7 +18,7 @@ var TodoModel = Backbone.Model.extend({  // e.g. TodoModelClass
     completed: false
   },
   fetch: function(){
-    var that = this;
+    var that = this;  // pay attention to this, usually a reason for it because of a later 'this'; developers put this in like a clue
    // debugger;
    // var data = lscache.get('todos');
    // data = this.applySchema(data);
@@ -27,8 +27,8 @@ var TodoModel = Backbone.Model.extend({  // e.g. TodoModelClass
     $.ajax({  // this is all one big object that gets sent to AJAX, but we don't know when it will complete
       url: '/api',
       method: 'GET',
-      complete: function(response){
-        var dataString = resonse.responseText;
+      complete: function(response){  // new scope block where 'this' has a different meaning than above
+        var dataString = response.responseText;
         var data = JSON.parse(dataString);
         data = that.applySchema(data);  // apply schema to parsed string
         that.set('todos', data);  // sets it into local model
@@ -40,6 +40,19 @@ var TodoModel = Backbone.Model.extend({  // e.g. TodoModelClass
    // var data = this.get('todos');
    // data = this.applySchema(data);
    // lscache.set('todos', data);
+    var that = this;
+    var todos = this.get('todos');  // can use 'this' here because inside the model, even though have already defined 'that' as 'this', therefore better to always use 'this' when you can, and fallback to 'that' only when needed
+    $.ajax({
+      url: '/api',
+      method: 'POST',
+      data: {todos: JSON.stringify(todos)},  // assigns the array 'todos' and sets it as the 'todos' variable (object?)
+      complete: function(response){
+        var dataString = response.responseText;
+        var data = JSON.parse(dataString);
+        data = that.applySchema(data);  // apply schema to parsed string
+        that.set('todos', data);  // sets it into local model
+      }
+    });
   },
   applySchema: function(todos){
     var data = todos;

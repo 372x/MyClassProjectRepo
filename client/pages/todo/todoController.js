@@ -24,7 +24,7 @@ var TodoControllerView = Backbone.View.extend({
     // instead of 'this.render;''  use backbone feature that allows it to listen to a model
     // this.listenTo(this.model, 'change', this.render);  // backbone approach
     this.model.on('change', this.render, this);   // instructor prefers this
-  },  
+  },  // the above line is important re: ajax and waiting for the asynchronous stuff to execute
   render: function(){
     // debugger;
     // render the todo items

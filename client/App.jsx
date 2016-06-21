@@ -25,8 +25,9 @@ $(function(){
     // our first javascript router; better syntax than if statement;
   switch (url){   // switch statement; going to look for lots of values of 'url'; executes same as if statement, but better syntax, better-looking code
     case '/pages/todo.html':  // takes place of if statement
-      todos.render();   // todos.init();
+    todos.render();   // todos.init();
 		break;
+    
     case '/pages/project.html':
         // init the project javascript
 		break;
@@ -41,7 +42,7 @@ $(function(){
 
     case '/pages/todo.html':
       var todoControllerView = new TodoControllerView();
-      break;
+    break;
 
     case '/':
       // init the project javascript

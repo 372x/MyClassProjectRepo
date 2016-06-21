@@ -109,6 +109,7 @@
 	      // takes place of if statement
 	      todos.render(); // todos.init();
 	      break;
+	
 	    case '/pages/project.html':
 	      // init the project javascript
 	      break;
@@ -18408,7 +18409,7 @@
 	    completed: false
 	  },
 	  fetch: function fetch() {
-	    var that = this;
+	    var that = this; // pay attention to this, usually a reason for it because of a later 'this'; developers put this in like a clue
 	    // debugger;
 	    // var data = lscache.get('todos');
 	    // data = this.applySchema(data);
@@ -18418,7 +18419,8 @@
 	      url: '/api',
 	      method: 'GET',
 	      complete: function complete(response) {
-	        var dataString = resonse.responseText;
+	        // new scope block where 'this' has a different meaning than above
+	        var dataString = response.responseText;
 	        var data = JSON.parse(dataString);
 	        data = that.applySchema(data); // apply schema to parsed string
 	        that.set('todos', data); // sets it into local model
@@ -18430,6 +18432,19 @@
 	    // var data = this.get('todos');
 	    // data = this.applySchema(data);
 	    // lscache.set('todos', data);
+	    var that = this;
+	    var todos = this.get('todos'); // can use 'this' here because inside the model, even though have already defined 'that' as 'this', therefore better to always use 'this' when you can, and fallback to 'that' only when needed
+	    $.ajax({
+	      url: '/api',
+	      method: 'POST',
+	      data: { todos: JSON.stringify(todos) }, // assigns the array 'todos' and sets it as the 'todos' variable (object?)
+	      complete: function complete(response) {
+	        var dataString = response.responseText;
+	        var data = JSON.parse(dataString);
+	        data = that.applySchema(data); // apply schema to parsed string
+	        that.set('todos', data); // sets it into local model
+	      }
+	    });
 	  },
 	  applySchema: function applySchema(todos) {
 	    var data = todos;
