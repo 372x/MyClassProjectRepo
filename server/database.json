@@ -1,4 +1,1 @@
-
-[{"title":"example"}]
-[]  // = simplest database possible
-// an array is a flat-face database.  slow but simple
+[{"title":"example","id":0,"completed":false,"isEditing":false},{"title":"asldkfjsdalfjs","id":1,"completed":true,"isEditing":false},{"title":"123","id":3,"completed":false,"isEditing":false}]

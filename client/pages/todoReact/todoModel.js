@@ -4,7 +4,7 @@ require('bootstrap');
 
 import _ from 'underscore';
 import Backbone from 'backbone';
-import lscache from 'lscache';
+// import lscache from 'lscache';
 
 
 // Model
@@ -15,7 +15,8 @@ var TodoModel = Backbone.Model.extend({  // e.g. TodoModelClass
   todoSchema: {  // this schema affects all the data coming in and out of model
     id: 0,  // gives a unique identifier to this
     title: '',
-    completed: false
+    completed: false,
+    isEditing: false
   },
   fetch: function(){
     var that = this;  // pay attention to this, usually a reason for it because of a later 'this'; developers put this in like a clue
@@ -51,6 +52,7 @@ var TodoModel = Backbone.Model.extend({  // e.g. TodoModelClass
         var data = JSON.parse(dataString);
         data = that.applySchema(data);  // apply schema to parsed string
         that.set('todos', data);  // sets it into local model
+        that.trigger('change');
       }
     });
   },
@@ -87,9 +89,19 @@ var TodoModel = Backbone.Model.extend({  // e.g. TodoModelClass
     this.save();
   },
   editTitle: function(newTitle, id){
+    // if (newTitle.length > 0) {
     var todos = this.get('todos');
     var item = _.findWhere(todos, {id: id});  // the first id is not a variable, it's the first of a key value pair
     item.title = newTitle;
+    item.isEditing = false;
+    this.set('todos', todos);
+    this.save();
+    // }
+  },
+  startEditing: function(id){
+    var todos = this.get('todos');
+    var item = _.findWhere(todos, {id: id});  // the first id is not a variable, it's the first of a key value pair
+    item.isEditing = true;
     this.set('todos', todos);
     this.save();
   }

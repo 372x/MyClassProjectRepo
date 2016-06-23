@@ -4,13 +4,13 @@ require('bootstrap');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import _ from 'underscore';
+// import _ from 'underscore';
 // backbone relies on underscore and needs to come after it in the imports
 import Backbone from 'backbone';
-import Handlebars from 'handlebars';
+// import Handlebars from 'handlebars';
 // import lscache from 'lscache';
 import todoModel from 'pages/todoReact/todoModel';
-import TodoItemView from 'pages/todo/todoView';
+import TodoItemView from 'pages/todoReact/todoView';
 
 // Controller View
 
@@ -38,7 +38,7 @@ var TodoControllerView = Backbone.View.extend({
       var $li = $('<li class="list-group-item row"></li>');
       $ul.append($li);  // adds each li independently
       ReactDOM.render(
-        <TodoItemView data={todo}/>,
+        <TodoItemView data={todo} controller={controller}/>,
         $li[0]  // gets the original DOM node from jquery object; React otherwise is at odds with jquery 
       );
       // have to always do a .html to replace content rather than .append
@@ -57,10 +57,10 @@ var TodoControllerView = Backbone.View.extend({
     $input.val('');  // clears out value of input
     this.render();  // have to rerender to the change from adding the item
   },
-  removeItem: function(id){
-    this.model.removeItem(id);  // id of what will be removed is passed to the model for removal
-    this.render();  // have to rerender to see the change from removing the item
-  },
+  // removeItem: function(id){
+  //  this.model.removeItem(id);  // id of what will be removed is passed to the model for removal
+  //  this.render();  // have to rerender to see the change from removing the item
+  // },
   itemCompleted: function(id, isCompleted){
     this.model.itemCompleted(id, isCompleted);
     this.render();

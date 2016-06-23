@@ -34,8 +34,8 @@ router.post('/api', function(req, res){  // /api is the path to the server
     // add new item to the database
     parsedData.push(newTodo);  // 
     // convert database back to a string  */
- //   var newDBString = JSON.stringify(parsedData);
-    fs.writeFile(databasePath, newDBString, function(err){
+    // var newDBString = JSON.stringify(parsedData);
+    fs.writeFile(databasePath, todos, function(err){
       if (err) { console.log(err); }  // this server console appears in the localhost:5000 page
       // there's no debugger for node.js server, have to rely on console.log
       // respond to the client
