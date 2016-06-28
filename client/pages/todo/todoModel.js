@@ -15,7 +15,8 @@ var TodoModel = Backbone.Model.extend({  // e.g. TodoModelClass
   todoSchema: {  // this schema affects all the data coming in and out of model
     id: 0,  // gives a unique identifier to this
     title: '',
-    completed: false
+    completed: false,
+    isEditing: false
   },
   fetch: function(){
     var that = this;  // pay attention to this, usually a reason for it because of a later 'this'; developers put this in like a clue
@@ -51,6 +52,7 @@ var TodoModel = Backbone.Model.extend({  // e.g. TodoModelClass
         var data = JSON.parse(dataString);
         data = that.applySchema(data);  // apply schema to parsed string
         that.set('todos', data);  // sets it into local model
+        that.trigger('change');
       }
     });
   },
@@ -71,7 +73,7 @@ var TodoModel = Backbone.Model.extend({  // e.g. TodoModelClass
     var todos = this.get('todos');
     todos.push(newTodo);
     this.set('todos', todos);
-    this.save();  // 
+    this.save(); 
   },
   removeItem: function(id){
     // takes the item out of the model and calls .save
@@ -79,20 +81,28 @@ var TodoModel = Backbone.Model.extend({  // e.g. TodoModelClass
     todos.splice(id, 1);
     this.save();
   },
-  itemCompleted: function(id, isCompleted){
+  itemCompleted: function(id){
     var todos = this.get('todos');
     var item = _.findWhere(todos, {id: id});  // the first id is not a variable, it's the first of a key value pair
-    item.completed = isCompleted;
+    item.completed = !item.completed;
     this.set('todos', todos);
     this.save();
   },
-  editTitle: function(newTitle, id){
+  editTitle: function(id, newTitle){
     var todos = this.get('todos');
     var item = _.findWhere(todos, {id: id});  // the first id is not a variable, it's the first of a key value pair
     item.title = newTitle;
+    item.isEditing = false;
     this.set('todos', todos);
     this.save();
-  }
+  },
+  startEditing: function(id){
+    var todos = this.get('todos');
+    var item = _.findWhere(todos, {id: id});  // the first id is not a variable, it's the first of a key value pair
+    item.isEditing = true;
+    this.set('todos', todos);
+    this.save();
+  }  
 });
 
 var todoModel = new TodoModel();

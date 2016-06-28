@@ -1,6 +1,7 @@
 
 var $ = require('jquery');
 import React, { PropTypes } from 'react';  // PropTypes start with CAP 
+import dispatcher from 'pages/todoReact/todoDispatcher';
 
 var TodoItem = React.createClass({  // these are the properties for each todo
   propTypes: {  // lowercase propTypes; this.props accesses anything in propTypes
@@ -13,7 +14,6 @@ var TodoItem = React.createClass({  // these are the properties for each todo
   },
   render: function(){  // React puts event handlers in with the HTML; the checked={todo.completed} helps with checkboxes
     var todo = this.props.data;
-
     var title = <div className="col-sm-10 title" onClick={this.titleClick}>{todo.title}</div>;
     if (todo.isEditing) {
       title = (
@@ -38,23 +38,26 @@ var TodoItem = React.createClass({  // these are the properties for each todo
   },
   handleComplete: function(){
     var id = this.props.data.id;
-    var newValue = !this.props.data.completed;
-    this.props.controller.model.itemCompleted(id, newValue);
+    dispatcher.clickComplete(id);
+    // var newValue = !this.props.data.completed;
+    // TODO this.props.controller.model.itemCompleted(id, newValue);
   },
   handleClose: function(){
     var id = this.props.data.id;
-    this.props.controller.model.removeItem(id);
+    dispatcher.removeTodo(id);
+    // TODO this.props.controller.model.removeItem(id);
   },
   titleClick: function(){
     var id = this.props.data.id;
-    this.props.controller.model.startEditing(id);  // this says 'hey model' and skips controller
+    dispatcher.startEditMode(id);
+    // TODO this.props.controller.model.startEditing(id);  // this says 'hey model' and skips controller
   },
   editKeypress: function(event){
-    if ( event.which === 13 ){
+    // if ( event.which === 13 ){
       var id = this.props.data.id;
       var newTitle = $('li').eq(id).find('input[type="text"]').val();
-      this.props.controller.model.editTitle(newTitle, id);
-    }
+      dispatcher.editTodoTitle(id, newTitle, event);
+      // TODO this.props.controller.model.editTitle(newTitle, id);
   }
 });
 

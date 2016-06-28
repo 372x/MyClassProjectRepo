@@ -5,7 +5,7 @@ import 'styles/main.scss';
 // import todos from 'pages/todo-backbone';  // todos is what was app on the todo.js file
 // import todos from 'pages/todo/todoController';  // todos is what was app on the todo.js file
 // import TodoControllerView from 'pages/todo/todoController';  // todos is what was app on the todo.js file
-import TodoControllerView from 'pages/todoReact/todoController';
+import TodoListView from 'pages/todoReact/todoListView';
 import project from 'pages/project';
 import funnySquares from 'pages/funnySquares';
 import header from 'components/header';
@@ -27,28 +27,28 @@ $(function(){
   switch (url){   // switch statement; going to look for lots of values of 'url'; executes same as if statement, but better syntax, better-looking code
     // case '/pages/todo.html':  // takes place of if statement
       // todos.render();   // todos.init();
-		    // break;
+       // break;
     
     case '/pages/project.html':
       // init the project javascript
-		    break;
+    break;
     
     case '/pages/funnySquares.html':
       funnySquares.init();
-        break;
+    break;
 
     case '/pages/photoSearch.html':
       photoSearch.init();
-        break;
+    break;
 
     case '/pages/todo.html':
-      var todoControllerView = new TodoControllerView();
-        break;
+      var todoListView = new TodoListView();
+    break;
 
     case '/':
       // init the project javascript
       // home.init();
-        break;
+    break;
 
     /* case '/pages/formsBackbone.html':
         formsBackbone.render();
