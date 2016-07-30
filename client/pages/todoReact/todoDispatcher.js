@@ -13,6 +13,22 @@ var dispatcher = {  // has no render function because it's only a dispatcher
     ) {
     todoModel.addItem(title);
     }
+    // new starting here:
+    if (   
+      event.which === 13
+      && typeof title === 'string'
+      && title.length > 0
+    ) {
+    todoModel.addItem(title);
+    }  // end of new stuff
+
+    if (
+      title !== ''
+      && typeof title === 'string'
+      || event.which === 13
+    ) {
+    todoModel.addItem(title);
+    } 
   },
   removeTodo: function(id){
     todoModel.removeItem(id);
@@ -24,6 +40,10 @@ var dispatcher = {  // has no render function because it's only a dispatcher
       && title.length > 0
     ) {
       todoModel.editTitle(id, title);
+    } else if (
+      event.which === 27
+      )
+      return false;
     }  
   },
   startEditMode: function(id){

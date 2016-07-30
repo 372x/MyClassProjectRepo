@@ -13,12 +13,13 @@ var TodoItem = React.createClass({  // these are the properties for each todo
     controller: PropTypes.object
   },
   render: function(){  // React puts event handlers in with the HTML; the checked={todo.completed} helps with checkboxes
+   // onKeyUp for esc key
     var todo = this.props.data;
     var title = <div className="col-sm-10 title" onClick={this.titleClick}>{todo.title}</div>;
     if (todo.isEditing) {
       title = (
         <div className="col-sm-10 title-edit">
-          <input type="text" className="form-control" defaultValue={todo.title} onChange={function(){}} onKeyPress={this.editKeypress}></input>
+          <input type="text" className="form-control" defaultValue={todo.title} onChange={function(){}} onKeyPress={this.editKeypress} ></input>
         </div>
       );
     }

@@ -35884,6 +35884,10 @@
 	    if (title !== '' && typeof title === 'string') {
 	      _pagesTodoReactTodoModel2['default'].addItem(title);
 	    }
+	    // new starting here:
+	    if (event.which === 13 && typeof title === 'string' && title.length > 0) {
+	      _pagesTodoReactTodoModel2['default'].addItem(title);
+	    } // end of new stuff
 	  },
 	  removeTodo: function removeTodo(id) {
 	    _pagesTodoReactTodoModel2['default'].removeItem(id);
