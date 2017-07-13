@@ -10046,7 +10046,7 @@
 	
 	var _pagesTodoReactTodoView2 = _interopRequireDefault(_pagesTodoReactTodoView);
 	
-	var _pagesTodoReactTodoDispatcher = __webpack_require__(182);
+	var _pagesTodoReactTodoDispatcher = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"pages/todoReact/todoDispatcher\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 	
 	var _pagesTodoReactTodoDispatcher2 = _interopRequireDefault(_pagesTodoReactTodoDispatcher);
 	
@@ -35773,7 +35773,7 @@
 	
 	// PropTypes start with CAP
 	
-	var _pagesTodoReactTodoDispatcher = __webpack_require__(182);
+	var _pagesTodoReactTodoDispatcher = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"pages/todoReact/todoDispatcher\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 	
 	var _pagesTodoReactTodoDispatcher2 = _interopRequireDefault(_pagesTodoReactTodoDispatcher);
 	
@@ -35792,6 +35792,7 @@
 	  },
 	  render: function render() {
 	    // React puts event handlers in with the HTML; the checked={todo.completed} helps with checkboxes
+	    // onKeyUp for esc key
 	    var todo = this.props.data;
 	    var title = _react2['default'].createElement(
 	      'div',
@@ -35861,50 +35862,7 @@
 	// in React, usually put parens around 'return statement' == return ( return statement);
 
 /***/ },
-/* 182 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	var _pagesTodoReactTodoModel = __webpack_require__(167);
-	
-	var _pagesTodoReactTodoModel2 = _interopRequireDefault(_pagesTodoReactTodoModel);
-	
-	// 'todoModel' is the folder name
-	
-	var dispatcher = { // has no render function because it's only a dispatcher
-	  // init: function(){},
-	  clickComplete: function clickComplete(id) {
-	    // informs model to update something
-	    _pagesTodoReactTodoModel2['default'].itemCompleted(id);
-	  },
-	  addTodo: function addTodo(title) {
-	    if (title !== '' && typeof title === 'string') {
-	      _pagesTodoReactTodoModel2['default'].addItem(title);
-	    }
-	    // new starting here:
-	    if (event.which === 13 && typeof title === 'string' && title.length > 0) {
-	      _pagesTodoReactTodoModel2['default'].addItem(title);
-	    } // end of new stuff
-	  },
-	  removeTodo: function removeTodo(id) {
-	    _pagesTodoReactTodoModel2['default'].removeItem(id);
-	  },
-	  editTodoTitle: function editTodoTitle(id, title, event) {
-	    if (event.which === 13 && typeof title === 'string' && title.length > 0) {
-	      _pagesTodoReactTodoModel2['default'].editTitle(id, title);
-	    }
-	  },
-	  startEditMode: function startEditMode(id) {
-	    _pagesTodoReactTodoModel2['default'].startEditing(id);
-	  }
-	};
-	
-	module.exports = dispatcher;
-
-/***/ },
+/* 182 */,
 /* 183 */
 /***/ function(module, exports) {
 
